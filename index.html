@@ -1,1456 +1,740 @@
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Documentación completa de SRanks: rankups y prestigios para Spigot/Paper 1.7.10–26.x, GUI configurable y editor in-game.">
-<meta name="theme-color" content="#0b1017">
-<meta name="color-scheme" content="dark light">
-<title>SRanks — Documentación</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%233b82f6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial' font-size='27' font-weight='900' fill='%23041018'%3ESR%3C/text%3E%3C/svg%3E">
-<script>
-(function () {
-  try {
-    var t = localStorage.getItem('sranks-doc-theme');
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Documentación de SRanks — rankups, prestigios y GUI configurable." />
+  <meta name="theme-color" content="#0b1017" />
+  <title>SRanks — Documentación</title>
+  <style>
+    :root {
+      --bg: #0b1017;
+      --bg-2: #0e151f;
+      --panel: #111a26;
+      --panel-2: #16212f;
+      --text: #e8eef6;
+      --muted: #8c9bad;
+      --soft: #c2cedd;
+      --border: #223044;
+      --accent: #38bdf8;
+      --accent-2: #6366f1;
+      --green: #4ade80;
+      --gold: #f4c95d;
+      --shadow: 0 18px 55px rgba(0,0,0,.28);
+      --sidebar: 280px;
+      --topbar: 60px;
     }
-    document.documentElement.setAttribute('data-theme', t);
-  } catch (e) {}
-})();
-</script>
-<style>
-:root {
-  --bg: #0b1017;
-  --bg-2: #0e151f;
-  --panel: #111a26;
-  --panel-2: #16212f;
-  --panel-3: #1b293b;
-  --text: #e8eef6;
-  --soft: #c2cedd;
-  --muted: #8c9bad;
-  --border: #223044;
-  --border-strong: #31445d;
-  --accent: #38bdf8;
-  --accent-2: #6366f1;
-  --accent-soft: rgba(56, 189, 248, .10);
-  --gold: #f4c95d;
-  --green: #4ade80;
-  --red: #fb7185;
-  --purple: #a78bfa;
-  --code-bg: #090e15;
-  --code-head: #0d141e;
-  --shadow: 0 18px 55px rgba(0, 0, 0, .28);
-  --radius: 13px;
-  --sidebar: 284px;
-  --topbar: 60px;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-}
-[data-theme="light"] {
-  --bg: #f7f9fc;
-  --bg-2: #eef3f9;
-  --panel: #ffffff;
-  --panel-2: #f3f7fb;
-  --panel-3: #e9f0f8;
-  --text: #111827;
-  --soft: #334155;
-  --muted: #5d6b7e;
-  --border: #dce5f0;
-  --border-strong: #c3d2e3;
-  --accent: #0e7490;
-  --accent-2: #2563eb;
-  --accent-soft: rgba(14, 116, 144, .08);
-  --gold: #a16207;
-  --green: #15803d;
-  --red: #be123c;
-  --purple: #6d28d9;
-  --code-bg: #0d1520;
-  --code-head: #111c2a;
-  --shadow: 0 16px 45px rgba(15, 23, 42, .08);
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar) + 22px); }
-body {
-  margin: 0;
-  font-family: var(--sans);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.68;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(700px 360px at 78% -8%, rgba(56, 189, 248, .055), transparent 70%),
-    radial-gradient(600px 320px at 0% 5%, rgba(99, 102, 241, .04), transparent 70%);
-}
-[data-theme="light"] body::before {
-  background:
-    radial-gradient(700px 360px at 78% -8%, rgba(37, 99, 235, .055), transparent 70%),
-    radial-gradient(600px 320px at 0% 5%, rgba(14, 116, 144, .04), transparent 70%);
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; text-underline-offset: 3px; }
-button, input { font: inherit; }
-a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible, pre:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-code, kbd, samp, pre { font-family: var(--mono); }
-::selection { background: rgba(56, 189, 248, .25); color: #fff; }
 
-/* Reference: sidebar */
-.sidebar {
-  position: fixed;
-  inset: 0 auto 0 0;
-  z-index: 50;
-  width: var(--sidebar);
-  display: flex;
-  flex-direction: column;
-  background: var(--panel);
-  border-right: 1px solid var(--border);
-}
-.sidebar-top { padding: 18px 16px 12px; position: relative; }
-.brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; }
-.brand:hover { text-decoration: none; }
-.brand-mark {
-  width: 38px; height: 38px; flex: none;
-  display: grid; place-items: center;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  color: #071019; font-weight: 800; font-size: .82rem; letter-spacing: -.04em;
-}
-.brand-name { display: block; font-size: 1rem; font-weight: 750; letter-spacing: -.02em; line-height: 1.15; }
-.brand-sub { display: block; font-size: .68rem; color: var(--muted); line-height: 1.2; margin-top: 2px; }
-.version-chip {
-  margin-left: auto; font-size: .64rem; font-weight: 700; color: var(--muted);
-  border: 1px solid var(--border); background: var(--panel-2);
-  padding: 3px 6px; border-radius: 5px; white-space: nowrap;
-}
-.sidebar-close {
-  display: none;
-  position: absolute; right: 12px; top: 12px;
-  width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 7px;
-  background: var(--panel-2); color: var(--muted); cursor: pointer;
-}
-.search-wrap { position: relative; margin: 2px 14px 10px; }
-.search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; color: var(--muted); pointer-events: none; }
-#searchInput {
-  width: 100%; padding: 8px 10px 8px 31px;
-  color: var(--text); background: var(--panel-2);
-  border: 1px solid var(--border); border-radius: 8px; outline: none;
-  font-size: .78rem; transition: border-color .15s, box-shadow .15s;
-}
-#searchInput::placeholder { color: var(--muted); }
-#searchInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.search-results {
-  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 90;
-  display: none; max-height: 320px; overflow: auto;
-  padding: 5px; background: var(--panel); border: 1px solid var(--border-strong);
-  border-radius: 9px; box-shadow: var(--shadow);
-}
-.search-results.open { display: block; }
-.search-result { display: block; padding: 7px 8px; border-radius: 6px; color: var(--text); text-decoration: none; font-size: .76rem; line-height: 1.35; }
-.search-result:hover, .search-result:focus { background: var(--panel-2); text-decoration: none; }
-.search-result b { display: block; font-weight: 650; color: var(--soft); }
-.search-result small { display: block; color: var(--muted); font-size: .67rem; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.search-empty { padding: 10px; color: var(--muted); font-size: .74rem; }
-.nav { flex: 1; overflow-y: auto; padding: 0 10px 18px; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
-.nav-group { margin: 15px 8px 4px; color: var(--muted); font-size: .62rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 750; }
-.nav a {
-  display: flex; align-items: center; gap: 8px;
-  padding: 6px 8px; margin: 1px 0;
-  border-radius: 6px; color: var(--soft);
-  font-size: .78rem; text-decoration: none;
-  border-left: 2px solid transparent;
-}
-.nav a:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
-.nav a.active { background: var(--accent-soft); color: var(--text); border-left-color: var(--accent); }
-.nav-dot { width: 4px; height: 4px; flex: none; border-radius: 50%; background: var(--border-strong); }
-.nav a.active .nav-dot { background: var(--accent); }
-.sidebar-foot { padding: 12px 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: .65rem; line-height: 1.55; }
-.sidebar-foot strong { color: var(--soft); font-weight: 650; }
+    html[data-theme="light"] {
+      --bg: #f7f9fc;
+      --bg-2: #edf3f9;
+      --panel: #ffffff;
+      --panel-2: #f3f7fb;
+      --text: #111827;
+      --muted: #5d6b7e;
+      --soft: #334155;
+      --border: #dce5f0;
+      --accent: #0e7490;
+      --accent-2: #2563eb;
+      --shadow: 0 16px 45px rgba(15,23,42,.08);
+    }
 
-/* Reference: main shell */
-.main { margin-left: var(--sidebar); min-height: 100vh; }
-.topbar {
-  position: sticky; top: 0; z-index: 40;
-  height: var(--topbar);
-  display: flex; align-items: center; gap: 12px;
-  padding: 0 28px;
-  background: var(--bg);
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(14px);
-}
-.progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); transition: width .1s linear; }
-.menu-btn {
-  display: none; width: 34px; height: 34px; padding: 0;
-  border: 1px solid var(--border); border-radius: 7px;
-  background: var(--panel); color: var(--soft); cursor: pointer;
-  place-items: center;
-}
-.menu-btn svg { width: 17px; height: 17px; }
-.crumb { display: flex; align-items: center; gap: 7px; min-width: 0; font-size: .75rem; color: var(--muted); white-space: nowrap; }
-.crumb strong { color: var(--text); font-weight: 650; }
-.crumb .sep { color: var(--border-strong); }
-.crumb .version-chip { margin-left: 2px; }
-.top-actions { margin-left: auto; display: flex; align-items: center; gap: 7px; }
-.top-badge { font-size: .66rem; color: var(--muted); border: 1px solid var(--border); padding: 5px 8px; border-radius: 5px; white-space: nowrap; }
-.top-badge strong { color: var(--green); font-weight: 650; }
-.icon-btn {
-  width: 34px; height: 34px; padding: 0;
-  display: grid; place-items: center;
-  border: 1px solid var(--border); border-radius: 7px;
-  background: var(--panel); color: var(--soft); cursor: pointer;
-  transition: background .15s, border-color .15s, color .15s;
-}
-.icon-btn:hover { background: var(--panel-2); border-color: var(--border-strong); color: var(--text); }
-.icon-btn svg { width: 16px; height: 16px; }
-.icon-moon { display: none; }
-[data-theme="light"] .icon-sun { display: none; }
-[data-theme="light"] .icon-moon { display: block; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button, input { font: inherit; }
 
-.content { max-width: 1160px; margin: 0 auto; padding: 34px 44px 78px; }
-article { max-width: 100%; }
-section { scroll-margin-top: 0; margin: 56px 0; }
-.section-head { margin: 0 0 18px; }
-.kicker { display: inline-flex; align-items: center; gap: 7px; font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 750; }
-.kicker::before { content: ""; width: 16px; height: 2px; border-radius: 2px; background: var(--accent); }
-h2 { margin: 5px 0 0; font-size: clamp(1.42rem, 2.1vw, 1.75rem); line-height: 1.2; letter-spacing: -.035em; font-weight: 750; }
-h2 .anchor { opacity: 0; margin-left: 8px; font-size: .72em; font-weight: 500; color: var(--muted); }
-h2:hover .anchor { opacity: 1; }
-h3 { margin: 28px 0 9px; font-size: 1.02rem; line-height: 1.35; letter-spacing: -.012em; font-weight: 700; }
-h4 { margin: 18px 0 6px; font-size: .88rem; font-weight: 700; }
-p { margin: 8px 0 11px; color: var(--soft); font-size: .9rem; }
-.lead { max-width: 760px; font-size: .97rem; color: var(--soft); }
-.muted { color: var(--muted); }
-.small { font-size: .78rem; }
-ul, ol { color: var(--soft); font-size: .88rem; }
-li { margin: 3px 0; }
-hr { border: 0; border-top: 1px solid var(--border); margin: 26px 0; }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: var(--sidebar);
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+    }
 
-/* Reference: hero */
-.hero {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
-  gap: 34px;
-  align-items: stretch;
-  margin-top: 2px;
-  padding: 38px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--panel);
-  box-shadow: var(--shadow);
-}
-.hero::before {
-  content: ""; position: absolute; inset: -1px -1px auto; height: 2px;
-  border-radius: 16px 16px 0 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2), transparent 75%);
-}
-.hero-main { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0; }
-.eyebrow { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .66rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-.hero h1 {
-  margin: 12px 0 8px;
-  font-size: clamp(2.8rem, 5.4vw, 4.2rem);
-  line-height: .98;
-  letter-spacing: -.065em;
-  font-weight: 800;
-  color: var(--text);
-  background: none;
-  -webkit-text-fill-color: currentColor;
-}
-.hero h1 .accent { color: var(--accent); }
-.hero .lead { font-size: 1rem; max-width: 620px; margin: 0 0 20px; }
-.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 0 0 18px; }
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-  min-height: 38px; padding: 8px 13px; border-radius: 7px;
-  border: 1px solid var(--border-strong); background: var(--panel-2);
-  color: var(--text); font-size: .78rem; font-weight: 650; text-decoration: none;
-  transition: background .15s, border-color .15s;
-}
-.btn:hover { text-decoration: none; background: var(--panel-3); border-color: var(--accent); }
-.btn.primary { border-color: transparent; background: var(--accent); color: #071019; }
-[data-theme="light"] .btn.primary { color: #fff; }
-.btn.primary:hover { background: #7dd3fc; border-color: transparent; }
-.link-arrow { font-size: .78rem; font-weight: 600; color: var(--soft); margin-left: 2px; }
-.link-arrow:hover { color: var(--accent); text-decoration: none; }
-.badges { display: flex; flex-wrap: wrap; gap: 5px; }
-.pill { display: inline-flex; align-items: center; border: 1px solid var(--border); background: var(--panel-2); color: var(--muted); font-size: .66rem; font-weight: 600; padding: 4px 8px; border-radius: 5px; }
-.pill.ok { color: var(--green); border-color: color-mix(in srgb, var(--green) 35%, var(--border)); }
-.pill.blue { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
-.pill.gold { color: var(--gold); border-color: color-mix(in srgb, var(--gold) 35%, var(--border)); }
-.hero-side {
-  align-self: stretch;
-  padding: 18px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel-2);
-}
-.side-title { color: var(--muted); font-size: .62rem; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 8px; }
-.quicklist { list-style: none; padding: 0; margin: 0; }
-.quicklist li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: .77rem; }
-.quicklist li:last-child { border-bottom: 0; }
-.quicklist span { color: var(--muted); }
-.quicklist b { color: var(--text); font-weight: 650; text-align: right; }
-.hero-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: .7rem; line-height: 1.55; }
-.hero-note strong { color: var(--soft); font-weight: 650; }
+    .sidebar-top {
+      padding: 18px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
 
-/* Reference: cards and content components */
-.grid { display: grid; gap: 10px; }
-.grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.card { padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); }
-.card:hover { border-color: var(--border-strong); }
-.card .icon {
-  width: 26px; height: 26px; margin-bottom: 10px;
-  display: grid; place-items: center;
-  border-radius: 6px; background: var(--accent-soft);
-  color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
-  font-family: var(--mono); font-size: .66rem; font-weight: 700;
-}
-.card h3 { margin: 0 0 4px; font-size: .9rem; }
-.card p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
-.card.gold .icon { color: var(--gold); background: color-mix(in srgb, var(--gold) 9%, transparent); border-color: color-mix(in srgb, var(--gold) 20%, var(--border)); }
-.card.green .icon { color: var(--green); background: color-mix(in srgb, var(--green) 9%, transparent); border-color: color-mix(in srgb, var(--green) 20%, var(--border)); }
-.card.purple .icon { color: var(--purple); background: color-mix(in srgb, var(--purple) 9%, transparent); border-color: color-mix(in srgb, var(--purple) 20%, var(--border)); }
-.callout { position: relative; margin: 16px 0; padding: 12px 14px 12px 38px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel-2); color: var(--soft); font-size: .82rem; }
-.callout::before { position: absolute; left: 12px; top: 11px; width: 17px; height: 17px; display: grid; place-items: center; border-radius: 4px; font-size: .64rem; font-weight: 800; color: var(--accent); background: var(--accent-soft); }
-.callout.info::before { content: "i"; }
-.callout.tip::before { content: "✓"; color: var(--green); background: color-mix(in srgb, var(--green) 9%, transparent); }
-.callout.warn::before { content: "!"; color: var(--gold); background: color-mix(in srgb, var(--gold) 9%, transparent); }
-.callout.danger::before { content: "!"; color: var(--red); background: color-mix(in srgb, var(--red) 9%, transparent); }
-.callout strong { color: var(--text); font-weight: 650; }
-.callout p { margin: 2px 0; color: var(--soft); font-size: .82rem; }
-.callout code { font-size: .76rem; }
-.steps { display: grid; gap: 7px; margin: 15px 0; }
-.step { position: relative; padding: 11px 13px 11px 42px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
-.step::before { counter-increment: step; content: counter(step, decimal-leading-zero); position: absolute; left: 11px; top: 10px; width: 21px; height: 21px; display: grid; place-items: center; border-radius: 4px; background: var(--accent-soft); color: var(--accent); font-family: var(--mono); font-size: .6rem; font-weight: 700; }
-.steps { counter-reset: step; }
-.step strong { display: block; color: var(--text); font-size: .82rem; font-weight: 650; }
-.step span { display: block; color: var(--muted); font-size: .76rem; margin-top: 1px; }
-.timeline { position: relative; margin: 16px 0 0 5px; padding-left: 20px; border-left: 1px solid var(--border-strong); }
-.timeline-item { position: relative; }
-.timeline-item::before { content: ""; position: absolute; left: -26px; top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-.timeline-head { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
-.timeline-head b { font-size: .95rem; }
-.timeline-head span { color: var(--muted); font-size: .7rem; }
-.timeline h4 { margin: 11px 0 3px; font-size: .67rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
-.timeline ul { margin: 3px 0; padding-left: 16px; font-size: .79rem; }
-.timeline li { margin: 2px 0; }
-.faq { display: grid; gap: 6px; margin-top: 12px; }
-details { border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
-summary { cursor: pointer; padding: 11px 34px 11px 13px; position: relative; color: var(--text); font-size: .82rem; font-weight: 620; list-style: none; }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; }
-details[open] summary::after { content: "−"; }
-.faq-body { padding: 0 13px 11px; color: var(--muted); font-size: .8rem; }
-.faq-body p { margin: 0; color: var(--muted); font-size: .8rem; }
+    .brand {
+      display: flex; gap: 10px; align-items: center; color: var(--text);
+      text-decoration: none;
+    }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #071019; font-weight: 800;
+    }
+    .brand-name { display: block; font-weight: 700; }
+    .brand-sub { display: block; color: var(--muted); font-size: .7rem; }
+    .version-chip {
+      margin-left: auto; font-size: .62rem; border: 1px solid var(--border); border-radius: 5px; padding: 4px 6px; color: var(--muted);
+    }
 
-/* Reference: tables */
-.table-wrap { overflow-x: auto; margin: 13px 0; border: 1px solid var(--border); border-radius: 8px; }
-table { width: 100%; border-collapse: collapse; font-size: .78rem; min-width: 620px; }
-thead th { padding: 9px 12px; background: var(--panel-2); border-bottom: 1px solid var(--border); color: var(--muted); font-size: .62rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; text-align: left; white-space: nowrap; }
-tbody td { padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--soft); vertical-align: top; line-height: 1.55; }
-tbody tr:last-child td { border-bottom: 0; }
-tbody tr:hover { background: color-mix(in srgb, var(--panel-2) 55%, transparent); }
-td code, p code, li code { white-space: nowrap; }
-:not(pre) > code { font-size: .76em; padding: 1px 4px; border-radius: 3px; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border)); }
-[data-theme="light"] :not(pre) > code { color: #0e7490; background: #e8f6f9; border-color: #c8e9ef; }
-.status { display: inline-flex; align-items: center; gap: 5px; font-size: .7rem; font-weight: 650; white-space: nowrap; }
-.status::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-.status.ok { color: var(--green); }
-.status.warn { color: var(--gold); }
-.status.info { color: var(--accent); }
+    .search-wrap {
+      position: relative; padding: 12px 14px 8px;
+    }
+    #searchInput {
+      width: 100%; padding: 9px 10px 9px 33px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text);
+    }
+    .search-wrap svg {
+      position: absolute; left: 25px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--muted);
+    }
+    .search-results {
+      position: absolute; left: 14px; right: 14px; top: calc(100% + 6px); background: var(--panel); border: 1px solid var(--border); border-radius: 8px; display: none; max-height: 260px; overflow: auto; padding: 6px; z-index: 20;
+    }
+    .search-results.open { display: block; }
+    .search-result {
+      display: block; padding: 7px 8px; border-radius: 6px; color: var(--text); text-decoration: none; font-size: .78rem;
+    }
+    .search-result:hover { background: var(--panel-2); }
+    .search-empty { color: var(--muted); padding: 8px; font-size: .75rem; }
 
-/* Reference: code */
-.code-block { margin: 13px 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--code-bg); }
-.code-head { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--code-head); border-bottom: 1px solid rgba(148, 163, 184, .12); }
-.code-head span { font-family: var(--mono); font-size: .6rem; letter-spacing: .09em; color: #7dd3fc; }
-.copy-btn { margin-left: auto; padding: 3px 7px; border: 1px solid rgba(148, 163, 184, .2); border-radius: 4px; background: transparent; color: #94a3b8; font-size: .62rem; font-weight: 600; cursor: pointer; }
-.copy-btn:hover { color: #e2e8f0; background: rgba(148, 163, 184, .1); }
-.copy-btn.copied { color: #4ade80; border-color: rgba(74, 222, 128, .35); }
-pre { margin: 0; padding: 13px 15px; max-height: 500px; overflow: auto; overscroll-behavior: contain; font-size: .75rem; line-height: 1.62; color: #c7d2df; tab-size: 2; }
-pre code { font-family: var(--mono); }
-pre::-webkit-scrollbar, .table-wrap::-webkit-scrollbar, .nav::-webkit-scrollbar { width: 8px; height: 8px; }
-pre::-webkit-scrollbar-thumb, .table-wrap::-webkit-scrollbar-thumb, .nav::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, .2); border-radius: 99px; }
+    .nav {
+      flex: 1; padding: 8px 10px 18px; overflow-y: auto;
+    }
+    .nav-group {
+      margin: 14px 8px 6px; font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700;
+    }
+    .nav a {
+      display: flex; align-items: center; gap: 8px; padding: 7px 8px; border-radius: 6px; color: var(--soft); text-decoration: none; border-left: 2px solid transparent;
+    }
+    .nav a:hover { background: var(--panel-2); color: var(--text); }
+    .nav a.active {
+      background: rgba(56, 189, 248, .1);
+      border-left-color: var(--accent);
+      color: var(--text);
+    }
+    .nav-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--border);
+      display: inline-block;
+    }
+    .nav a.active .nav-dot { background: var(--accent); }
 
-.footer { margin-top: 60px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: var(--muted); font-size: .68rem; }
-.footer a { color: var(--soft); }
-.footer a:hover { color: var(--accent); }
-.back-top { position: fixed; right: 18px; bottom: 18px; z-index: 60; width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--panel); color: var(--soft); box-shadow: var(--shadow); cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(5px); transition: .18s; }
-.back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-.back-top svg { width: 15px; height: 15px; }
-.overlay { position: fixed; inset: 0; z-index: 45; background: rgba(2, 6, 12, .55); opacity: 0; visibility: hidden; transition: .18s; }
-body.nav-open .overlay { opacity: 1; visibility: visible; }
+    .sidebar-foot {
+      border-top: 1px solid var(--border); padding: 12px 18px; color: var(--muted); font-size: .68rem; line-height: 1.5;
+    }
 
-/* Responsive */
-@media (max-width: 1120px) {
-  .content { padding: 30px 30px 72px; }
-  .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 1100px) {
-  .hero { grid-template-columns: 1fr; gap: 22px; padding: 28px; }
-  .hero-side { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
-  .hero-note { grid-column: 1 / -1; }
-  .quicklist { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
-  .quicklist li:nth-last-child(2) { border-bottom: 0; }
-}
-@media (max-width: 960px) {
-  .sidebar { transform: translateX(-102%); transition: transform .2s ease; box-shadow: var(--shadow); width: min(86vw, 320px); }
-  body.nav-open .sidebar { transform: translateX(0); }
-  body.nav-open { overflow: hidden; }
-  .main { margin-left: 0; }
-  .menu-btn { display: grid; }
-  .sidebar-close { display: grid; place-items: center; font-size: 1.15rem; line-height: 1; }
-  .sidebar .version-chip { display: none; }
-  .sidebar-top { padding-right: 48px; }
-  .topbar { padding: 0 16px; }
-  .content { padding: 26px 22px 70px; }
-  .hero { grid-template-columns: 1fr; gap: 22px; padding: 28px; }
-  .hero-side { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
-  .hero-note { grid-column: 1 / -1; }
-  .quicklist { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
-  .quicklist li:nth-last-child(2) { border-bottom: 0; }
-  .top-badge { display: none; }
-}
-@media (max-width: 760px) {
-  :root { --topbar: 56px; }
-  section { margin: 44px 0; }
-  .hero { padding: 22px; border-radius: 12px; }
-  .hero-main { align-items: stretch; }
-  .hero h1 { font-size: 3rem; }
-  .hero .lead { font-size: .92rem; max-width: none; }
-  .hero-actions { width: 100%; gap: 7px; }
-  .hero-actions .btn { flex: 1 1 auto; }
-  .link-arrow { flex: 0 0 100%; }
-  .hero-side { grid-template-columns: 1fr; padding: 14px; }
-  .quicklist { grid-template-columns: 1fr; }
-  .quicklist li:nth-last-child(2) { border-bottom: 1px solid var(--border); }
-  .grid.two, .grid.three { grid-template-columns: 1fr; }
-  .top-badge, .hide-sm { display: none; }
-  .crumb { gap: 5px; }
-  .content { padding: 22px 16px 64px; }
-  h2 { font-size: 1.42rem; }
-  p, ul, ol { font-size: .86rem; }
-  .lead { font-size: .92rem; }
-  .table-wrap { overflow: visible; border: 0; border-radius: 0; }
-  table { min-width: 0; display: block; font-size: .8rem; }
-  thead { display: none; }
-  tbody { display: grid; gap: 8px; }
-  tbody tr { display: block; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); overflow: hidden; }
-  tbody tr:hover { background: var(--panel); }
-  tbody td { display: block; padding: 8px 11px; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
-  tbody td:last-child { border-bottom: 0; }
-  tbody td::before { display: block; content: attr(data-label); color: var(--muted); font-size: .6rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 2px; }
-  tbody td code, td code, p code, li code { white-space: normal; overflow-wrap: anywhere; }
-  tbody td:first-child { background: var(--panel-2); }
-  .code-block pre { max-height: 380px; font-size: .71rem; padding: 12px; }
-  .code-head { padding: 6px 9px; }
-  .callout { padding: 11px 12px 11px 35px; }
-  .footer { font-size: .64rem; }
-}
-@media (max-width: 480px) {
-  .hero h1 { font-size: 2.55rem; }
-  .hero-side { padding: 12px; }
-  .hero-note { display: none; }
-  .quicklist { grid-template-columns: 1fr 1fr; }
-  .quicklist li { padding: 6px 0; font-size: .72rem; }
-  .quicklist li:nth-last-child(2) { border-bottom: 0; }
-  .hero-actions { flex-direction: column; flex-wrap: nowrap; align-items: stretch; }
-  .hero-actions .btn { width: 100%; }
-  .link-arrow { flex: 0 0 auto; width: 100%; text-align: center; }
-  .badges .pill { font-size: .62rem; }
-  .stat, .stats { display: none; }
-  .top-actions .icon-btn { width: 32px; height: 32px; }
-  .back-top { right: 12px; bottom: 12px; }
-  .code-block pre { max-height: 340px; }
-}
-@media (max-width: 390px) {
-  .quicklist { grid-template-columns: 1fr; }
-  .quicklist li { padding: 6px 0; }
-  .quicklist li:nth-last-child(2) { border-bottom: 1px solid var(--border); }
-  .hero-side { padding: 12px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
-}
-@media print {
-  .sidebar, .topbar, .back-top, .hero-actions, .copy-btn, .overlay { display: none !important; }
-  .main { margin: 0; }
-  .content { max-width: none; padding: 0; }
-  body { background: #fff; color: #000; }
-  .hero, .card, .callout, .table-wrap, .code-block { box-shadow: none; break-inside: avoid; }
-  .code-block pre { max-height: none; }
-  a { color: #000; }
-}
+    .main {
+      margin-left: var(--sidebar);
+      min-height: 100vh;
+    }
 
-</style>
+    .topbar {
+      position: sticky; top: 0; z-index: 40; display: flex; align-items: center; gap: 12px; height: var(--topbar); padding: 0 26px; border-bottom: 1px solid var(--border); background: rgba(11,16,23,.9); backdrop-filter: blur(14px);
+    }
+    html[data-theme="light"] .topbar { background: rgba(247,249,252,.9); }
+    .menu-btn {
+      display: none; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; background: var(--panel); color: var(--soft); cursor: pointer;
+    }
+    .crumb {
+      display: flex; align-items: center; gap: 8px; font-size: .75rem; color: var(--muted);
+    }
+    .crumb strong { color: var(--text); }
+    .top-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .top-badge {
+      border: 1px solid var(--border); border-radius: 5px; padding: 5px 8px; font-size: .66rem; color: var(--muted);
+    }
+    .icon-btn {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 7px; border: 1px solid var(--border); background: var(--panel); color: var(--soft); cursor: pointer;
+    }
+    .icon-btn svg { width: 16px; height: 16px; }
+    .icon-moon { display: none; }
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="light"] .icon-moon { display: block; }
+
+    .progress {
+      position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .12s linear;
+    }
+
+    .content {
+      max-width: 1100px; margin: 0 auto; padding: 34px 32px 90px;
+    }
+
+    .hero {
+      display: grid; grid-template-columns: 1.35fr .65fr; gap: 28px; align-items: stretch; padding: 32px; border: 1px solid var(--border); border-radius: 16px; background: var(--panel); box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700;
+    }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--green); }
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4.1rem); line-height: .98; letter-spacing: -.05em; margin: 14px 0 12px;
+    }
+    .lead {
+      color: var(--soft); font-size: 1rem; max-width: 640px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 13px; border-radius: 7px; border: 1px solid var(--border); background: var(--panel-2); color: var(--text); text-decoration: none; font-weight: 600;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-color: transparent; color: #071019;
+    }
+    .badges { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill {
+      border: 1px solid var(--border); border-radius: 999px; padding: 5px 10px; font-size: .68rem; color: var(--muted); background: var(--panel-2);
+    }
+
+    .hero-side {
+      border: 1px solid var(--border); border-radius: 12px; background: var(--panel-2); padding: 18px;
+    }
+    .side-title {
+      color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-size: .62rem; font-weight: 700;
+    }
+    .quicklist { list-style: none; margin: 12px 0 0; padding: 0; }
+    .quicklist li {
+      display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--soft); font-size: .78rem;
+    }
+    .quicklist li:last-child { border-bottom: 0; }
+    .hero-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); color: var(--muted); font-size: .72rem; }
+
+    section {
+      margin: 56px 0;
+      scroll-margin-top: 90px;
+    }
+    .section-head { margin-bottom: 18px; }
+    .kicker {
+      display: inline-flex; align-items: center; gap: 7px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; font-size: .64rem; font-weight: 700;
+    }
+    .kicker::before {
+      content: ""; width: 16px; height: 2px; border-radius: 2px; background: var(--accent); display: inline-block;
+    }
+    h2 { margin: 8px 0 0; font-size: clamp(1.5rem, 2vw, 2rem); }
+    h3 { margin: 26px 0 8px; font-size: 1.02rem; }
+    p, li { color: var(--soft); font-size: .92rem; }
+
+    .grid {
+      display: grid; gap: 12px;
+    }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    }
+    .card .icon {
+      width: 30px; height: 30px; margin-bottom: 12px; border-radius: 8px; display: grid; place-items: center; font-size: .72rem; font-weight: 700; color: var(--accent); background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.2);
+    }
+    .card h3 { margin: 0 0 6px; }
+    .card p { margin: 0; color: var(--muted); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); margin: 14px 0; }
+    table {
+      width: 100%; min-width: 620px; border-collapse: collapse;
+    }
+    th, td {
+      text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border);
+      color: var(--soft);
+    }
+    th {
+      font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--panel-2);
+    }
+    tr:last-child td { border-bottom: 0; }
+
+    .code-block {
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: #090e15; margin: 14px 0;
+    }
+    .code-head {
+      display: flex; align-items: center; justify-content: space-between; background: #0d141e; border-bottom: 1px solid rgba(148,163,184,.15); padding: 7px 10px; color: #7dd3fc; font-size: .62rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .copy-btn {
+      border: 1px solid rgba(148,163,184,.2); border-radius: 4px; background: transparent; color: #94a3b8; padding: 3px 7px; cursor: pointer; font-weight: 600;
+    }
+    .copy-btn.copied { color: var(--green); border-color: rgba(74,222,128,.35); }
+    pre {
+      margin: 0; padding: 14px 16px; color: #c7d2df; font-size: .76rem; line-height: 1.65; overflow: auto;
+    }
+
+    .status {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--soft); font-size: .7rem;
+    }
+    .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; }
+
+    .back-top {
+      position: fixed; right: 18px; bottom: 18px; width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); display: grid; place-items: center; color: var(--soft); cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(8px); transition: .2s;
+      z-index: 80;
+    }
+    .back-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    .footer {
+      display: flex; justify-content: space-between; gap: 12px; color: var(--muted); font-size: .7rem; padding-top: 18px; border-top: 1px solid var(--border); margin-top: 60px;
+    }
+
+    .overlay {
+      position: fixed; inset: 0; background: rgba(2,6,12,.55); opacity: 0; visibility: hidden; transition: .2s; z-index: 45;
+    }
+    body.nav-open .overlay {
+      opacity: 1; visibility: visible;
+    }
+
+    @media (max-width: 960px) {
+      .sidebar {
+        transform: translateX(-102%); transition: .2s ease; box-shadow: var(--shadow); width: min(86vw, 320px);
+      }
+      body.nav-open .sidebar { transform: translateX(0); }
+      body.nav-open { overflow: hidden; }
+      .main { margin-left: 0; }
+      .menu-btn { display: grid; place-items: center; }
+      .topbar { padding: 0 16px; }
+      .content { padding-left: 20px; padding-right: 20px; }
+      .hero { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .grid.three { grid-template-columns: 1fr; }
+      .top-badge { display: none; }
+      .crumb { gap: 5px; }
+      .content { padding: 24px 16px 68px; }
+      .hero { padding: 22px; }
+      .hero-actions .btn { width: 100%; }
+    }
+  </style>
 </head>
 <body>
-<aside class="sidebar" aria-label="Navegación de la documentación">
-  <div class="sidebar-top">
-    <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Cerrar menú">×</button>
-    <a class="brand" href="#inicio">
-      <span class="brand-mark">SR</span>
-      <span><span class="brand-name">SRanks</span><span class="brand-sub">Documentación</span></span>
-      <span class="version-chip">v1.0.0</span>
-    </a>
-  </div>
-  <div class="search-wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-    <input id="searchInput" type="search" placeholder="Buscar en la documentación…" autocomplete="off" aria-label="Buscar en la documentación">
-    <div id="searchResults" class="search-results" role="listbox"></div>
-  </div>
-  <nav class="nav" id="nav" aria-label="Secciones">
-    <div class="nav-group">Empezar</div><a href="#inicio"><span class="nav-dot"></span>Inicio</a><a href="#caracteristicas"><span class="nav-dot"></span>Características</a><a href="#compatibilidad"><span class="nav-dot"></span>Compatibilidad</a><a href="#instalacion"><span class="nav-dot"></span>Instalación</a><div class="nav-group">Uso</div><a href="#comandos"><span class="nav-dot"></span>Comandos</a><a href="#permisos"><span class="nav-dot"></span>Permisos y LuckPerms</a><a href="#rangos"><span class="nav-dot"></span>Rangos y prestigios</a><div class="nav-group">Configuración</div><a href="#requisitos"><span class="nav-dot"></span>Requisitos</a><a href="#recompensas"><span class="nav-dot"></span>Recompensas</a><a href="#gui"><span class="nav-dot"></span>GUI</a><a href="#editor"><span class="nav-dot"></span>Editor in-game</a><a href="#formato"><span class="nav-dot"></span>Formato de texto</a><a href="#placeholders"><span class="nav-dot"></span>Placeholders</a><a href="#archivos"><span class="nav-dot"></span>Archivos y config</a><div class="nav-group">Avanzado</div><a href="#vault"><span class="nav-dot"></span>Vault y progreso</a><a href="#compilar"><span class="nav-dot"></span>Compilar y probar</a><a href="#limitaciones"><span class="nav-dot"></span>Limitaciones</a><a href="#faq"><span class="nav-dot"></span>FAQ</a><a href="#changelog"><span class="nav-dot"></span>Changelog</a>
-  </nav>
-  <div class="sidebar-foot">
-    <strong>SRanks 1.0.0</strong><br>
-    Rankups · Prestigios · GUI · Editor<br>
-    <span class="muted">1.7.10 → 26.x</span>
-  </div>
-</aside>
-<div class="overlay" id="overlay"></div>
-<main class="main">
-  <header class="topbar">
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-    <div class="crumb"><span class="hide-sm">Documentación</span><span class="sep hide-sm">/</span><strong>SRanks</strong><span class="version-chip">v1.0.0</span></div>
-    <div class="top-actions">
-      <span class="top-badge"><strong>Estable</strong> · 1.7.10–26.x</span>
-      <a class="icon-btn" href="../target/SRanks-1.0.0.jar" download title="Descargar JAR" aria-label="Descargar JAR">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"/></svg>
+  <aside class="sidebar" aria-label="Navegación de la documentación">
+    <div class="sidebar-top">
+      <a class="brand" href="#inicio">
+        <span class="brand-mark">SR</span>
+        <span>
+          <span class="brand-name">SRanks</span>
+          <span class="brand-sub">Documentación</span>
+        </span>
+        <span class="version-chip">v1.0.0</span>
       </a>
-      <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema">
-        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"/></svg>
-      </button>
     </div>
-    <div class="progress" id="progress"></div>
-  </header>
-  <div class="content">
-    <article>
-      
-<section id="inicio" class="hero">
-  <div class="hero-main">
-    <div class="eyebrow"><span class="dot"></span> Documentación · SRanks 1.0.0</div>
-    <h1>SRanks</h1>
-    <p class="lead">Rankups y prestigios para <strong>Spigot/Paper</strong> con una GUI
-    totalmente configurable, requisitos combinables y recompensas reales. Un solo JAR
-    desde <strong>1.7.10 hasta 26.x</strong>.</p>
-    <div class="hero-actions">
-      <a class="btn primary" href="#instalacion">Instalación</a>
-      <a class="btn" href="#comandos">Ver comandos</a>
-      <a class="link-arrow" href="#editor">Editor in-game →</a>
+
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="m16 16 5 5"></path></svg>
+      <input id="searchInput" type="search" placeholder="Buscar en la documentación…" aria-label="Buscar en la documentación" />
+      <div id="searchResults" class="search-results" role="listbox"></div>
     </div>
-    <div class="badges">
-      <span class="pill blue">1.7.10 → 26.x</span>
-      <span class="pill">Java 8</span>
-      <span class="pill">Spigot / Paper</span>
-      <span class="pill">Vault y PAPI opcionales</span>
+
+    <nav class="nav" aria-label="Secciones principales">
+      <div class="nav-group">Empezar</div>
+      <a href="#inicio" class="active"><span class="nav-dot"></span>Inicio</a>
+      <a href="#caracteristicas"><span class="nav-dot"></span>Características</a>
+      <a href="#compatibilidad"><span class="nav-dot"></span>Compatibilidad</a>
+      <a href="#instalacion"><span class="nav-dot"></span>Instalación</a>
+      <a href="#comandos"><span class="nav-dot"></span>Comandos</a>
+      <a href="#permisos"><span class="nav-dot"></span>Permisos</a>
+      <a href="#rangos"><span class="nav-dot"></span>Rangos</a>
+      <a href="#gui"><span class="nav-dot"></span>GUI</a>
+      <a href="#editor"><span class="nav-dot"></span>Editor</a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <strong>SRanks 1.0.0</strong><br />
+      Rankups · Prestigios · GUI · Editor<br />
+      <span>1.7.10 → 26.x</span>
     </div>
-  </div>
-  <aside class="hero-side">
-    <div class="side-title">De un vistazo</div>
-    <ul class="quicklist">
-      <li><span>Versión</span><b>1.0.0</b></li>
-      <li><span>Minecraft</span><b>1.7.10 – 26.x</b></li>
-      <li><span>Requisitos</span><b>6 tipos</b></li>
-      <li><span>Editor</span><b>Incluido</b></li>
-    </ul>
-    <div class="hero-note"><strong>Un JAR para todo.</strong> Java 8 en versiones antiguas;
-    26.x requiere Java 25+. GUI, editor y configuración incluidos.</div>
   </aside>
-</section>
-<section id="caracteristicas"><div class="section-head"><span class="kicker">Visión general</span><h2>Todo lo que puedes hacer</h2></div>
-<p class="lead">SRanks no es solo una lista de rangos: es un sistema de progresión completo,
-pensado para que un administrador pueda ajustar cada detalle sin tocar Java.</p>
-<div class="grid three">
-  <div class="card"><div class="icon">01</div><h3>Un JAR para todo</h3><p>Bytecode Java 8 y capa de compatibilidad para arrancar en 1.7.10, 1.8.8, 1.21.x y 26.x sin builds separados.</p></div>
-  <div class="card"><div class="icon">02</div><h3>Rangos y prestigios</h3><p>Progresión ordenada, grupos de Vault, rango inicial, reset de prestigio y detección por datos, Vault o permisos.</p></div>
-  <div class="card"><div class="icon">03</div><h3>Requisitos combinables</h3><p>Dinero, tiempo de juego, XP, ítems, permisos y PlaceholderAPI. Se pueden combinar y consumir al subir.</p></div>
-  <div class="card gold"><div class="icon">04</div><h3>Recompensas reales</h3><p>Dinero, comandos de consola, ítems custom capturados de la mano, mensajes, broadcasts, títulos y action bar.</p></div>
-  <div class="card gold"><div class="icon">05</div><h3>GUI configurable</h3><p>Cabecera con tu rango actual, indicador de página, paginación, estados visuales, lore por estado, sonidos y botones.</p></div>
-  <div class="card green"><div class="icon">06</div><h3>Editor in-game</h3><p>Recompensas, comandos, requisitos, apariencia de cada estado y selector de ítems con cabezas Base64.</p></div>
-  <div class="card purple"><div class="icon">07</div><h3>Permisos y LuckPerms</h3><p>Nodos claros, permiso por rango, editor separado y ejemplos de comandos para LuckPerms.</p></div>
-  <div class="card purple"><div class="icon">08</div><h3>Rendimiento</h3><p>Textos e ítems estáticos cacheados, E/S async, top con caché y nada de bucles innecesarios por tick.</p></div>
-</div>
-</section><section id="compatibilidad"><div class="section-head"><span class="kicker">Compatibilidad</span><h2>Un JAR, muchas versiones</h2></div>
-<p class="lead">SRanks se compila contra la API de Spigot 1.16.5 pero genera bytecode Java 8.
-Las APIs posteriores se usan por reflexión y degradan si no existen.</p>
-<div class="table-wrap"><table><thead><tr><th>Entorno</th><th>Estado</th><th>Qué se comprobó</th></tr></thead><tbody><tr><td data-label="Entorno"><strong>Paper 1.7.10</strong> + Java 8</td><td data-label="Estado"><span class="status ok">Probado</span></td><td data-label="Qué se comprobó">Arranque, configs, comandos, datos y `/rankup` dinámico.</td></tr><tr><td data-label="Entorno"><strong>Paper 1.8.8</strong> + Java 8</td><td data-label="Estado"><span class="status ok">Probado</span></td><td data-label="Qué se comprobó">GUI legacy, clics, paginación, editor, recompensas y prestigios.</td></tr><tr><td data-label="Entorno"><strong>Paper 1.21.4</strong> + Java 21/26</td><td data-label="Estado"><span class="status ok">Probado</span></td><td data-label="Qué se comprobó">GUI, Adventure, hex, PlaceholderAPI, rankup y prestige.</td></tr><tr><td data-label="Entorno"><strong>Paper 26.3</strong> + Java 25/26</td><td data-label="Estado"><span class="status ok">Probado</span></td><td data-label="Qué se comprobó">Carga, comandos, `/rankup`, Adventure y Materiales modernos.</td></tr><tr><td data-label="Entorno"><strong>Spigot 1.7.10 – 1.21.x</strong></td><td data-label="Estado"><span class="status info">Soportado</span></td><td data-label="Qué se comprobó">Misma API usada; solo APIs presentes en 1.7.10.</td></tr><tr><td data-label="Entorno"><strong>Spigot/Paper 26.x</strong></td><td data-label="Estado"><span class="status info">Soportado</span></td><td data-label="Qué se comprobó">Detección tolerante a versiones como `26.3.build.231-stable`.</td></tr></tbody></table></div><div class="callout info"><strong>Java</strong>
-<p>El JAR apunta a Java 8. Los servidores 1.7.10–1.21.x pueden usar Java 8 o superior;
-los servidores 26.x requieren Java 25+. Para compilar hace falta JDK 21+.</p>
-</div>
-<div class="badges">
-  <span class="pill">Spigot</span><span class="pill">Paper</span>
-  <span class="pill">Java 8 bytecode</span><span class="pill">1.7.10 → 26.x</span>
-  <span class="pill">Sin Foundation</span><span class="pill">Adventure opcional</span>
-</div>
-</section><section id="instalacion"><div class="section-head"><span class="kicker">Primeros pasos</span><h2>Instalación en 5 minutos</h2></div>
-<div class="steps">
-  <div class="step"><strong>Compila o descarga el JAR</strong><span><code>mvn clean package</code> o usa <code>SRanks-1.0.0.jar</code>.</span></div>
-  <div class="step"><strong>Cópialo a plugins/</strong><span>Arranca el servidor una vez para generar los archivos.</span></div>
-  <div class="step"><strong>Instala dependencias opcionales</strong><span>Vault + economía para dinero/grupos; PlaceholderAPI para placeholders; LuckPerms para permisos.</span></div>
-  <div class="step"><strong>Edita los YAML</strong><span>Empieza por <code>rankups.yml</code>, <code>gui.yml</code> y <code>messages.yml</code>.</span></div>
-  <div class="step"><strong>Recarga y prueba</strong><span>Ejecuta <code>/sranks reload</code> y luego <code>/sranks gui</code> o <code>/sranks rankup</code>.</span></div>
-</div>
-<h3>Archivos que se crean</h3>
-<div class="table-wrap"><table><thead><tr><th>Archivo</th><th>Función</th></tr></thead><tbody><tr><td data-label="Archivo"><code>config.yml</code></td><td data-label="Función">Prefijo, autosave, Vault, detección, sonidos, top y `/rankup` opcional.</td></tr><tr><td data-label="Archivo"><code>messages.yml</code></td><td data-label="Función">Todos los mensajes, títulos, action bars y textos del editor.</td></tr><tr><td data-label="Archivo"><code>gui.yml</code></td><td data-label="Función">GUI de rangos y prestigios, bordes, relleno, sonidos, plantillas y botones.</td></tr><tr><td data-label="Archivo"><code>rankups.yml</code></td><td data-label="Función">Rangos, requisitos, recompensas y overrides de GUI por rango.</td></tr><tr><td data-label="Archivo"><code>prestiges.yml</code></td><td data-label="Función">Niveles de prestigio, rango de reset, requisitos y recompensas.</td></tr><tr><td data-label="Archivo"><code>editor.yml</code></td><td data-label="Función">Overrides creados por el editor in-game.</td></tr><tr><td data-label="Archivo"><code>playerdata/&lt;uuid&gt;.yml</code></td><td data-label="Función">Rango, prestigio y tiempo de juego por jugador.</td></tr></tbody></table></div><div class="callout warn"><strong>Actualizar desde otra versión</strong>
-<p>Los archivos existentes no se sobrescriben. Si vienes de una versión anterior,
-añade manualmente el bloque <code>commands.rankup-command</code> a tu <code>config.yml</code>.
-Los mensajes nuevos del editor se rellenan automáticamente desde los defaults del JAR.</p>
-</div></section><section id="comandos"><div class="section-head"><span class="kicker">Referencia</span><h2>Comandos</h2></div>
-<p class="lead">El comando raíz es <code>/sranks</code> (alias <code>/sr</code>). No se registran
-<code>/ranks</code>, <code>/prestiges</code> ni <code>/rankup3</code>.</p>
-<div class="table-wrap"><table><thead><tr><th>Comando</th><th>Qué hace</th><th>Permiso</th></tr></thead><tbody><tr><td data-label="Comando"><code>/sranks</code> o <code>/sr</code></td><td data-label="Qué hace">Abre la GUI principal. En consola muestra ayuda.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks gui</code></td><td data-label="Qué hace">Abre la GUI de rangos.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks rankup</code></td><td data-label="Qué hace">Intenta subir al siguiente rango.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks ranks</code></td><td data-label="Qué hace">Lista o GUI según <code>commands.ranks-mode</code>.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks prestiges</code></td><td data-label="Qué hace">GUI o lista de prestigios según <code>commands.prestiges-mode</code>.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks prestige</code></td><td data-label="Qué hace">Intenta ejecutar un prestigio.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks info [jugador]</code></td><td data-label="Qué hace">Rango actual, siguiente, progreso y requisitos.</td><td data-label="Permiso"><code>sranks.use</code></td></tr><tr><td data-label="Comando"><code>/sranks top</code></td><td data-label="Qué hace">Top por prestigio, rango y tiempo jugado.</td><td data-label="Permiso"><code>sranks.top</code></td></tr><tr><td data-label="Comando"><code>/sranks reload</code></td><td data-label="Qué hace">Recarga configs, mensajes, GUI, ranks y overrides.</td><td data-label="Permiso"><code>sranks.admin</code></td></tr><tr><td data-label="Comando"><code>/sranks set &lt;jugador&gt; &lt;rango&gt;</code></td><td data-label="Qué hace">Fuerza un rango (online u offline).</td><td data-label="Permiso"><code>sranks.admin</code></td></tr><tr><td data-label="Comando"><code>/sranks reset &lt;jugador&gt;</code></td><td data-label="Qué hace">Resetea al rango inicial.</td><td data-label="Permiso"><code>sranks.admin</code></td></tr><tr><td data-label="Comando"><code>/sranks editor</code></td><td data-label="Qué hace">Abre el editor in-game.</td><td data-label="Permiso"><code>sranks.admin.editor</code></td></tr><tr><td data-label="Comando"><code>/sranks help</code></td><td data-label="Qué hace">Muestra la ayuda.</td><td data-label="Permiso"><code>sranks.use</code></td></tr></tbody></table></div>
-<h3>Comando opcional <code>/rankup</code></h3>
-<p>Pensado para jugadores acostumbrados a Rankup3. Se registra dinámicamente y solo si
-el nombre está libre; SRanks no reemplaza el comando de otro plugin.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>commands:
-  rankup-command:
-    enabled: true
-    root: rankup   # rankup = intenta subir; gui = abre la GUI</code></pre></div>
-<ul>
-  <li><code>/rankup</code> sin argumentos ejecuta la acción de <code>root</code>.</li>
-  <li>Subcomandos: <code>gui</code>, <code>rankup</code>, <code>ranks</code>, <code>prestiges</code>,
-  <code>prestige</code>, <code>info</code>, <code>top</code>, <code>reload</code>,
-  <code>set</code>, <code>reset</code>, <code>editor</code>, <code>help</code>.</li>
-  <li>Por defecto está desactivado. Si otro plugin ya usa <code>/rankup</code>, se avisa y no se toca.</li>
-  <li><code>/sranks</code> y <code>/sr</code> siguen funcionando siempre.</li>
-</ul>
-</section><section id="permisos"><div class="section-head"><span class="kicker">Seguridad</span><h2>Permisos y LuckPerms</h2></div>
-<p class="lead">Los permisos están declarados en <code>plugin.yml</code>. El permiso explícito
-de un rango se exige siempre; el toggle global solo activa el nodo automático.</p>
-<div class="table-wrap"><table><thead><tr><th>Nodo</th><th>Default</th><th>Uso</th></tr></thead><tbody><tr><td data-label="Nodo"><code>sranks.use</code></td><td data-label="Default"><span class="status ok">true</span></td><td data-label="Uso">Comandos básicos, GUI, rankup, prestige e info.</td></tr><tr><td data-label="Nodo"><code>sranks.admin</code></td><td data-label="Default"><span class="status warn">op</span></td><td data-label="Uso">Reload, set, reset y bypass del editor.</td></tr><tr><td data-label="Nodo"><code>sranks.admin.editor</code></td><td data-label="Default"><span class="status warn">op</span></td><td data-label="Uso">Editor in-game de recompensas/requisitos.</td></tr><tr><td data-label="Nodo"><code>sranks.top</code></td><td data-label="Default"><span class="status warn">op</span></td><td data-label="Uso">Consultar la clasificación.</td></tr><tr><td data-label="Nodo"><code>sranks.rankup.&lt;id&gt;</code></td><td data-label="Default"><span class="status info">opcional</span></td><td data-label="Uso">Permiso automático si el rango no define uno y el toggle está activo.</td></tr></tbody></table></div>
-<h3>Con LuckPerms</h3>
-<div class="code-block"><div class="code-head"><span>BASH</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>lp user Nombre permission set sranks.use true
-lp user Nombre permission set sranks.admin.editor true
-lp group admin permission set sranks.admin true
-lp user Nombre permission set sranks.rankup.avanzado true</code></pre></div><div class="callout info"><strong>Permiso por rango</strong>
-<p>El campo <code>permission:</code> de un rango se exige siempre, aunque
-<code>require-rank-permission</code> esté en <code>false</code>. Si el rango no define
-permiso y el toggle está en <code>true</code>, se exige <code>sranks.rankup.&lt;id&gt;</code>.
-Puedes editar el nodo desde el editor in-game, pero el permiso real se concede en LuckPerms.</p>
-</div>
-<div class="badges">
-  <span class="pill">LuckPerms</span><span class="pill">PermissionsEx</span>
-  <span class="pill">Cualquier plugin de permisos</span><span class="pill">OP para el editor</span>
-</div>
-</section><section id="rangos"><div class="section-head"><span class="kicker">Progresión</span><h2>Rangos y prestigios</h2></div>
-<p class="lead">El orden de los rangos se define con <code>order</code>. Si se omite, se usa
-el orden del archivo. Los prestigios se definen como una lista y su nivel es la posición.</p>
-<h3>Ejemplo de rango</h3>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>ranks:
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menú">☰</button>
+      <div class="crumb"><span>Documentación</span><span>/</span><strong>SRanks</strong></div>
+      <div class="top-actions">
+        <span class="top-badge"><strong>Estable</strong> · 1.7.10–26.x</span>
+        <a class="icon-btn" href="../target/SRanks-1.0.0.jar" download aria-label="Descargar JAR" title="Descargar JAR">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"></path></svg>
+        </a>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"></path></svg>
+        </button>
+      </div>
+      <div class="progress" id="progress"></div>
+    </header>
+
+    <div class="content">
+      <article>
+        <section id="inicio" class="hero">
+          <div>
+            <div class="eyebrow"><span class="dot"></span> Documentación · SRanks 1.0.0</div>
+            <h1>SRanks</h1>
+            <p class="lead">Rankups y prestigios para <strong>Spigot/Paper</strong> con una GUI configurable, requisitos combinables y recompensas reales. Un solo JAR desde <strong>1.7.10 hasta 26.x</strong>.</p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#instalacion">Instalación</a>
+              <a class="btn" href="#comandos">Ver comandos</a>
+              <a class="btn" href="#editor">Editor in-game</a>
+            </div>
+            <div class="badges">
+              <span class="pill">1.7.10 → 26.x</span>
+              <span class="pill">Java 8</span>
+              <span class="pill">Spigot / Paper</span>
+              <span class="pill">Vault y PAPI opcionales</span>
+            </div>
+          </div>
+
+          <aside class="hero-side">
+            <div class="side-title">De un vistazo</div>
+            <ul class="quicklist">
+              <li><span>Versión</span><strong>1.0.0</strong></li>
+              <li><span>Minecraft</span><strong>1.7.10 – 26.x</strong></li>
+              <li><span>Requisitos</span><strong>6 tipos</strong></li>
+              <li><span>Editor</span><strong>Incluido</strong></li>
+            </ul>
+            <div class="hero-note"><strong>Un JAR para todo.</strong> Java 8 en versiones antiguas; 26.x requiere Java 25+. GUI, editor y configuración incluidos.</div>
+          </aside>
+        </section>
+
+        <section id="caracteristicas">
+          <div class="section-head">
+            <span class="kicker">Visión general</span>
+            <h2>Todo lo que puedes hacer</h2>
+          </div>
+          <div class="grid three">
+            <div class="card">
+              <div class="icon">01</div>
+              <h3>Un JAR para todo</h3>
+              <p>Compatibilidad desde 1.7.10 hasta 26.x con una sola build.</p>
+            </div>
+            <div class="card">
+              <div class="icon">02</div>
+              <h3>Rangos y prestigios</h3>
+              <p>Progresión ordenada, reset de prestigio y estructura configurable.</p>
+            </div>
+            <div class="card">
+              <div class="icon">03</div>
+              <h3>Requisitos combinables</h3>
+              <p>Dinero, tiempo de juego, XP, ítems, permisos y placeholders.</p>
+            </div>
+            <div class="card">
+              <div class="icon">04</div>
+              <h3>Recompensas reales</h3>
+              <p>Dinero, comandos, ítems, mensajes y broadcasts.</p>
+            </div>
+            <div class="card">
+              <div class="icon">05</div>
+              <h3>GUI configurable</h3>
+              <p>Cabecera, paginación, estados visuales y botones personalizados.</p>
+            </div>
+            <div class="card">
+              <div class="icon">06</div>
+              <h3>Editor in-game</h3>
+              <p>Configura rangos, recompensas y apariencia sin editar YAML a mano.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="compatibilidad">
+          <div class="section-head">
+            <span class="kicker">Compatibilidad</span>
+            <h2>Un JAR, muchas versiones</h2>
+          </div>
+          <p class="lead">SRanks está diseñado para correr en Spigot/Paper desde 1.7.10 hasta versiones modernas, con compatibilidad y degradación automática según la API disponible.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Entorno</th><th>Estado</th><th>Qué se comprueba</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Paper 1.7.10</strong> + Java 8</td><td><span class="status">Probado</span></td><td>Arreglo, compatibilidad legacy y carga del plugin.</td></tr>
+                <tr><td><strong>Paper 1.8.8</strong> + Java 8</td><td><span class="status">Probado</span></td><td>GUI y requisitos sin mayor problema.</td></tr>
+                <tr><td><strong>Paper 1.21.x</strong> + Java 21</td><td><span class="status">Probado</span></td><td>Compatibilidad moderna con reflexión y fallbacks.</td></tr>
+                <tr><td><strong>Paper 26.x</strong> + Java 25+</td><td><span class="status">Probado</span></td><td>Compatibilidad con APIs nuevas y componentes recientes.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="instalacion">
+          <div class="section-head">
+            <span class="kicker">Primeros pasos</span>
+            <h2>Instalación en minutos</h2>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn" type="button" data-copy="wget https://example.com/SRanks-1.0.0.jar">Copiar</button></div>
+            <pre><code>cp SRanks-1.0.0.jar plugins/
+./start.sh</code></pre>
+          </div>
+          <ol>
+            <li>Descarga el JAR y colócalo en <code>plugins/</code>.</li>
+            <li>Arranca el servidor para generar los archivos iniciales.</li>
+            <li>Instala dependencias opcionales si es necesario: Vault, PlaceholderAPI y LuckPerms.</li>
+            <li>Configure los YAML y prueba con <code>/sranks gui</code>.</li>
+          </ol>
+        </section>
+
+        <section id="comandos">
+          <div class="section-head">
+            <span class="kicker">Referencia</span>
+            <h2>Comandos</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Comando</th><th>Qué hace</th><th>Permiso</th></tr></thead>
+              <tbody>
+                <tr><td><code>/sranks</code></td><td>Abre la ayuda principal.</td><td><code>sranks.use</code></td></tr>
+                <tr><td><code>/sranks gui</code></td><td>Abre la GUI de rangos.</td><td><code>sranks.use</code></td></tr>
+                <tr><td><code>/sranks reload</code></td><td>Recarga la configuración.</td><td><code>sranks.admin</code></td></tr>
+                <tr><td><code>/sranks editor</code></td><td>Abre el editor in-game.</td><td><code>sranks.admin.editor</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="permisos">
+          <div class="section-head">
+            <span class="kicker">Seguridad</span>
+            <h2>Permisos y LuckPerms</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Permiso</th><th>Uso</th></tr></thead>
+              <tbody>
+                <tr><td><code>sranks.use</code></td><td>Permite usar la funcionalidad principal.</td></tr>
+                <tr><td><code>sranks.admin</code></td><td>Acceso administrativo global.</td></tr>
+                <tr><td><code>sranks.admin.editor</code></td><td>Editor in-game.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="rangos">
+          <div class="section-head">
+            <span class="kicker">Progresión</span>
+            <h2>Rangos y prestigios</h2>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span>YAML</span><button class="copy-btn" type="button" data-copy="ranks:
   aprendiz:
     order: 1
-    group: aprendiz
-    display-name: &quot;&lt;gradient:#A0A0A0:#FFFFFF&gt;&lt;bold&gt;Aprendiz&lt;/bold&gt;&lt;/gradient&gt;&quot;
-    permission: &quot;&quot;            # opcional; si se define, se exige siempre
     requirements:
-      money: { amount: 1000, take: true }
-      playtime: { minutes: 30 }
+      money: 1000
     rewards:
-      money: 250
-      commands:
-        - &quot;say {PLAYER} ha ascendido de {OLD_RANK} a {RANK}.&quot;
-      message: &quot;&lt;green&gt;¡Has subido a &lt;bold&gt;{rank}&lt;/bold&gt;!&lt;/green&gt;&quot;
-    gui-item:
-      material: LEATHER_CHESTPLATE</code></pre></div>
-<h3>Campos de un rango</h3>
-<div class="table-wrap"><table><thead><tr><th>Campo</th><th>Descripción</th></tr></thead><tbody><tr><td data-label="Campo"><code>order</code></td><td data-label="Descripción">Orden numérico. Menor = antes.</td></tr><tr><td data-label="Campo"><code>group</code></td><td data-label="Descripción">Grupo de Vault al que se cambia. Por defecto, el id.</td></tr><tr><td data-label="Campo"><code>display-name</code></td><td data-label="Descripción">Nombre visible con formato MiniMessage/legacy.</td></tr><tr><td data-label="Campo"><code>permission</code></td><td data-label="Descripción">Permiso opcional. Si existe, se exige siempre para subir.</td></tr><tr><td data-label="Campo"><code>requirements</code></td><td data-label="Descripción">Requisitos combinables (dinero, tiempo, XP, ítems, permiso, placeholder).</td></tr><tr><td data-label="Campo"><code>rewards</code></td><td data-label="Descripción">Dinero, comandos, ítems, mensaje, broadcast.</td></tr><tr><td data-label="Campo"><code>gui-item</code></td><td data-label="Descripción">Override opcional del ítem de la GUI para ese rango.</td></tr></tbody></table></div>
-<h3>Ejemplo de prestigio</h3>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>require-max-rank: true
-
-prestiges:
-  - id: prestige_1
-    display-name: &quot;&lt;gradient:#FFD700:#FFAA00&gt;&lt;bold&gt;✦ Prestigio {level} ✦&lt;/bold&gt;&lt;/gradient&gt;&quot;
-    reset-rank: aprendiz
-    requirements:
-      money: { amount: 100000, take: true }
-      playtime: { hours: 5 }
-    rewards:
-      money: 25000
-      commands:
-        - &quot;say {PLAYER} alcanzó el prestigio {PRESTIGE}. Vuelve a {RANK}.&quot;
-      message: &quot;&lt;gold&gt;¡Prestigio {prestige}!&lt;/gold&gt;&quot;</code></pre></div>
-<h3>Detección del rango</h3>
-<div class="table-wrap"><table><thead><tr><th>Modo</th><th>Comportamiento</th></tr></thead><tbody><tr><td data-label="Modo"><code>data</code></td><td data-label="Comportamiento">Manda el rango guardado en <code>playerdata</code>. Recomendado.</td></tr><tr><td data-label="Modo"><code>vault</code></td><td data-label="Comportamiento">Al entrar se sincroniza con el grupo primario de Vault.</td></tr><tr><td data-label="Modo"><code>permission</code></td><td data-label="Comportamiento">Al entrar se busca el rango más alto cuyo permiso tenga el jugador.</td></tr></tbody></table></div><div class="callout warn"><strong>Vault y grupos</strong>
-<p>La sincronización de grupo depende de que el proveedor de permisos de Vault implemente
-grupos. Si no lo hace, usa comandos de recompensa:
-<code>lp user {PLAYER} parent set {RANK}</code>.</p>
-</div></section><section id="requisitos"><div class="section-head"><span class="kicker">Configuración</span><h2>Requisitos</h2></div>
-<p class="lead">Se combinan todos los requisitos definidos. Cada uno muestra su progreso y
-puede consumir el recurso al subir si <code>take: true</code>.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>requirements:
-  money:
-    amount: 7500
-    take: true
-  playtime:
-    hours: 2
-  xp:
-    levels: 5
-    take: true
-  items:
-    take: true
-    list:
-      - material: DIAMOND
-        amount: 8
-      - material: EMERALD
-        amount: 4
-        data: 0
-  permission: &quot;sranks.extra.vip&quot;
-  placeholder:
-    placeholder: &quot;%statistic_hours_played%&quot;
-    operator: &quot;&gt;=&quot;
-    value: &quot;10&quot;</code></pre></div>
-<h3>Tipos disponibles</h3>
-<div class="table-wrap"><table><thead><tr><th>Tipo</th><th>Campos</th><th>Consumo</th></tr></thead><tbody><tr><td data-label="Tipo"><code>money</code></td><td data-label="Campos"><code>amount</code>, <code>take</code></td><td data-label="Consumo">Vault: retira el dinero.</td></tr><tr><td data-label="Tipo"><code>playtime</code></td><td data-label="Campos"><code>seconds</code>, <code>minutes</code>, <code>hours</code>, <code>days</code>, <code>time: "2h30m"</code></td><td data-label="Consumo">No aplica.</td></tr><tr><td data-label="Tipo"><code>xp</code></td><td data-label="Campos"><code>levels</code>, <code>points</code>, <code>amount</code> + <code>mode</code>, <code>take</code></td><td data-label="Consumo">Niveles o XP.</td></tr><tr><td data-label="Tipo"><code>items</code></td><td data-label="Campos"><code>list</code> de <code>material</code>, <code>amount</code>, <code>data</code>, <code>name</code>, <code>take</code></td><td data-label="Consumo">Retira los ítems.</td></tr><tr><td data-label="Tipo"><code>permission</code></td><td data-label="Campos">Cadena o lista de nodos</td><td data-label="Consumo">No aplica.</td></tr><tr><td data-label="Tipo"><code>placeholder</code></td><td data-label="Campos"><code>placeholder</code>, <code>operator</code>, <code>value</code></td><td data-label="Consumo">No aplica.</td></tr></tbody></table></div><div class="callout info"><strong>Detalles</strong>
-<p><code>playtime</code> se mide desde la instalación del plugin. Un número suelto se
-interpreta como minutos. En <code>xp</code>, un número suelto es niveles; usa
-<code>points</code> para XP total. Los ítems aceptan <code>"DIAMOND:8"</code> o mapas.
-Todos los requisitos aceptan <code>name:</code> para personalizar su etiqueta.</p>
-</div>
-<h3>Operadores de placeholder</h3>
-<div class="table-wrap"><table><thead><tr><th>Operador</th><th>Significado</th></tr></thead><tbody><tr><td data-label="Operador"><code>&gt;=</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&lt;</code></td><td data-label="Significado">Comparación numérica si el valor es numérico.</td></tr><tr><td data-label="Operador"><code>==</code>, <code>equals</code></td><td data-label="Significado">Igualdad de texto (sin distinguir mayúsculas).</td></tr><tr><td data-label="Operador"><code>!=</code></td><td data-label="Significado">Desigualdad.</td></tr><tr><td data-label="Operador"><code>contains</code></td><td data-label="Significado">El valor contiene el texto esperado.</td></tr></tbody></table></div>
-<h3>Formato lista</h3>
-<p>También se admite una lista de mapas con <code>type</code>:</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>requirements:
-  - type: money
-    amount: 1000
-  - type: playtime
-    minutes: 30
-  - type: items
-    take: true
-    list:
-      - material: DIAMOND
-        amount: 8</code></pre></div></section><section id="recompensas"><div class="section-head"><span class="kicker">Configuración</span><h2>Recompensas</h2></div>
-<p class="lead">Las recompensas se ejecutan al subir de rango o prestigiar. Cada bloque está
-aislado: si un ítem o comando falla, los demás siguen ejecutándose.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>rewards:
-  money: 1500
-  commands:
-    - &quot;say {PLAYER} ha subido de {OLD_RANK} a {RANK}.&quot;
-    - &quot;lp user {PLAYER} parent set {RANK}&quot;
-  items:
-    - material: NETHER_STAR
-      amount: 2
-      name: &quot;&lt;gold&gt;Recompensa&lt;/gold&gt;&quot;
-      lore:
-        - &quot;&lt;gray&gt;Un premio por tu esfuerzo.&lt;/gray&gt;&quot;
-      glow: true
-      custom-model-data: 100
-  message: &quot;&lt;green&gt;¡Ahora eres &lt;bold&gt;{rank}&lt;/bold&gt;!&lt;/green&gt;&quot;
-  broadcast: &quot;&lt;gradient:#FFD700:#FF8C00&gt;✦ {PLAYER} alcanzó {rank}.&lt;/gradient&gt;&quot;</code></pre></div>
-<h3>Campos de ítem</h3>
-<div class="table-wrap"><table><thead><tr><th>Campo</th><th>Descripción</th></tr></thead><tbody><tr><td data-label="Campo"><code>material</code></td><td data-label="Descripción">Material moderno o legacy. Se mapea automáticamente.</td></tr><tr><td data-label="Campo"><code>amount</code></td><td data-label="Descripción">Cantidad; se reparte en stacks de 64 si hace falta.</td></tr><tr><td data-label="Campo"><code>data</code></td><td data-label="Descripción">Data value legacy (1.7–1.12).</td></tr><tr><td data-label="Campo"><code>name</code>, <code>lore</code></td><td data-label="Descripción">Texto con formato y placeholders.</td></tr><tr><td data-label="Campo"><code>custom-model-data</code></td><td data-label="Descripción">CustomModelData en 1.14+.</td></tr><tr><td data-label="Campo"><code>glow</code></td><td data-label="Descripción">Brillo falso; se oculta si la versión lo permite.</td></tr><tr><td data-label="Campo"><code>skull-owner</code></td><td data-label="Descripción">Nombre del jugador para cabezas.</td></tr><tr><td data-label="Campo"><code>enchantments</code></td><td data-label="Descripción">Lista de <code>ENCHANT:level</code>.</td></tr><tr><td data-label="Campo"><code>skull-base64</code></td><td data-label="Descripción">Textura de cabeza en Base64.</td></tr><tr><td data-label="Campo"><code>serialized</code></td><td data-label="Descripción">Ítem exacto serializado (lo genera el editor).</td></tr></tbody></table></div><div class="callout warn"><strong>Dinero y Vault</strong>
-<p>Las recompensas de dinero requieren Vault y una economía. Si no hay proveedor, se avisa
-en consola y se omiten solo esas recompensas; los comandos y los ítems se entregan igual.</p>
-</div>
-<h3>Placeholders de recompensa</h3>
-<div class="table-wrap"><table><thead><tr><th>Placeholder</th><th>Valor</th></tr></thead><tbody><tr><td data-label="Placeholder"><code>{PLAYER}</code></td><td data-label="Valor">Nombre del jugador.</td></tr><tr><td data-label="Placeholder"><code>{RANK}</code> / <code>{OLD_RANK}</code></td><td data-label="Valor">Grupo de Vault del rango nuevo/anterior.</td></tr><tr><td data-label="Placeholder"><code>{rank}</code> / <code>{old_rank}</code></td><td data-label="Valor">Nombre visible del rango nuevo/anterior.</td></tr><tr><td data-label="Placeholder"><code>{RANK_DISPLAY}</code> / <code>{RANK_ID}</code></td><td data-label="Valor">Nombre visible / id del rango.</td></tr><tr><td data-label="Placeholder"><code>{PRESTIGE}</code> / <code>{OLD_PRESTIGE}</code></td><td data-label="Valor">Nivel de prestigio nuevo/anterior.</td></tr></tbody></table></div>
-<p class="small muted">Los comandos aceptan una cadena o una lista. Los ítems aceptan un mapa
-o una lista. Los ítems custom capturados desde el editor conservan nombre, lore, NBT,
-custom model data y encantamientos para la misma versión del servidor.</p>
-</section><section id="gui"><div class="section-head"><span class="kicker">Apariencia</span><h2>GUI configurable</h2></div>
-<p class="lead">La raíz de <code>gui.yml</code> define la GUI de rangos y
-<code>prestige-gui:</code> la de prestigios. Todo se puede cambiar: título, filas,
-relleno, bordes, sonidos, botones y la plantilla de cada rango.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>title: &quot;&lt;bold&gt;&lt;gradient:#00BFFF:#1E90FF&gt;✦ SRanks ✦&lt;/gradient&gt;&lt;/bold&gt;&quot;
-rows: 6
-fill: true
-fill-item:
-  material: GRAY_STAINED_GLASS_PANE
-  name: &quot; &quot;
-border:
-  enabled: true
-  material: BLACK_STAINED_GLASS_PANE
-  name: &quot; &quot;
-sounds:
-  open: BLOCK_NOTE_BLOCK_PLING
-  click: UI_BUTTON_CLICK
-  rankup: ENTITY_PLAYER_LEVELUP
-  error: ENTITY_VILLAGER_NO
-  page: ITEM_BOOK_PAGE_TURN
-sounds-volume: 0.8
-sounds-pitch: 1.2
-
-rank-slots: [10, 11, 12, 13, 14, 15, 16,
-             19, 20, 21, 22, 23, 24, 25,
-             28, 29, 30, 31, 32, 33, 34]
-
-items:
-  current-rank:
-    slot: 4
-    material: NETHER_STAR
-    name: &quot;&lt;bold&gt;&lt;gradient:#00E5FF:#3B82F6&gt;TU RANGO ACTUAL&lt;/gradient&gt;&lt;/bold&gt;&quot;
-    lore:
-      - &quot;&lt;dark_gray&gt;────────────────────────&lt;/dark_gray&gt;&quot;
-      - &quot;&lt;gray&gt;Rango: &lt;white&gt;{rank}&lt;/white&gt;&lt;/gray&gt;&quot;
-      - &quot;&lt;gray&gt;Siguiente: &lt;white&gt;{next_rank}&lt;/white&gt;&lt;/gray&gt;&quot;
-      - &quot;&lt;gray&gt;Progreso: &lt;white&gt;{progress}%&lt;/white&gt;&lt;/gray&gt;&quot;
-      - &quot;{progress_bar}&quot;
-      - &quot;&lt;gray&gt;Tiempo jugado: &lt;white&gt;{playtime}&lt;/white&gt;&lt;/gray&gt;&quot;
-      - &quot;&lt;gray&gt;Prestigio: &lt;gold&gt;{prestige}&lt;/gold&gt;&lt;/gray&gt;&quot;
-      - &quot;&lt;gray&gt;Página: &lt;white&gt;{page}&lt;/white&gt;/&lt;white&gt;{pages}&lt;/white&gt;&lt;/gray&gt;&quot;
-      - &quot;{requirements}&quot;
-    glow: true
-    action: none
-
-  page-info:
-    slot: 8
-    material: PAPER
-    name: &quot;&lt;gray&gt;Página &lt;white&gt;{page}&lt;/white&gt;/&lt;white&gt;{pages}&lt;/white&gt;&lt;/gray&gt;&quot;
-    lore:
-      - &quot;&lt;gray&gt;Usa las flechas para cambiar de página.&lt;/gray&gt;&quot;
-    action: none
-
-  next-rank:
-    # Sin slot = plantilla para cada rango
-    material: DIAMOND
-    material-by-status:
-      current: NETHER_STAR
-      available: EMERALD
-      locked: COAL
-      unlocked: IRON_INGOT
-      future: STONE
-    name: &quot;&lt;bold&gt;&lt;gold&gt;➤ {rank}&lt;/gold&gt;&lt;/bold&gt;&quot;
-    lore:
-      - &quot;&quot;
-      - &quot;{status}&quot;
-      - &quot;&quot;
-      - &quot;&lt;bold&gt;Requisitos:&lt;/bold&gt;&quot;
-      - &quot;{requirements}&quot;
-    lore-by-status:
-      current:
-        - &quot;&quot;
-        - &quot;{status}&quot;
-        - &quot;&lt;gray&gt;Este es tu rango actual.&lt;/gray&gt;&quot;
-      unlocked:
-        - &quot;&quot;
-        - &quot;{status}&quot;
-        - &quot;&lt;gray&gt;Ya superaste este rango.&lt;/gray&gt;&quot;
-    glow-when: [current, available]
-    action: rankup
-
-  rank-button:
-    slot: 49
-    material: EMERALD
-    name: &quot;&lt;bold&gt;&lt;gradient:#00FF7F:#32CD32&gt;✔ SUBIR DE RANGO&lt;/gradient&gt;&lt;/bold&gt;&quot;
-    action: rankup
-  close:
-    slot: 45
-    material: BARRIER
-    name: &quot;&lt;bold&gt;&lt;red&gt;✘ Cerrar&lt;/red&gt;&lt;/bold&gt;&quot;
-    action: close
-  prev-page:
-    slot: 48
-    material: ARROW
-    name: &quot;&lt;bold&gt;&lt;yellow&gt;◀ Página anterior&lt;/yellow&gt;&lt;/bold&gt;&quot;
-    action: prev-page
-  next-page:
-    slot: 50
-    material: ARROW
-    name: &quot;&lt;bold&gt;&lt;yellow&gt;Página siguiente ▶&lt;/yellow&gt;&lt;/bold&gt;&quot;
-    action: next-page</code></pre></div>
-<h3>Cabecera y páginas</h3>
-<p>El slot 4 muestra <strong>TU RANGO ACTUAL</strong> con rango, siguiente, progreso,
-tiempo jugado, prestigio y página. El slot 8 muestra <code>Página X/Y</code>; las
-flechas 48/50 cambian de página y los rangos se reparten automáticamente entre
-<code>rank-slots</code>. En instalaciones antiguas, si <code>page-info</code> no existe,
-SRanks lo añade en memoria sin tocar tu <code>gui.yml</code>.</p>
-<h3>Variantes por estado</h3>
-<p>Cada ítem de la plantilla puede cambiar material, nombre, lore y cabeza según el
-estado. El editor in-game escribe estas claves:</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>items:
-  next-rank:
-    material-by-status:
-      current: NETHER_STAR
-      available: EMERALD
-      locked: COAL
-      unlocked: IRON_INGOT
-      future: STONE
-    name-by-status:
-      current: &quot;&lt;green&gt;Tu rango actual&lt;/green&gt;&quot;
-      available: &quot;&lt;gold&gt;Siguiente rango&lt;/gold&gt;&quot;
-    lore-by-status:
-      current:
-        - &quot;&lt;gray&gt;Este es tu rango actual.&lt;/gray&gt;&quot;
-    skull-base64-by-status:
-      current: &quot;eyJ0ZXh0dXJlcyI6...&quot;
-    serialized-by-status:
-      current:
-        ==: org.bukkit.inventory.ItemStack
-        type: PLAYER_HEAD
-    glow-when: [current, available]</code></pre></div>
-<h3>Reglas de la plantilla</h3>
-<ul>
-  <li>Un ítem <strong>sin <code>slot</code></strong> es la plantilla que se replica en <code>rank-slots</code>.</li>
-  <li>Un ítem con <code>slot</code> es fijo (cabecera, botón, cierre, etc.).</li>
-  <li>Los slots de contenido se paginan automáticamente según <code>rank-slots</code>.</li>
-  <li>Los botones de página se ocultan en la primera/última página.</li>
-  <li>Puedes sobrescribir la plantilla de un rango con <code>gui-item</code> en <code>rankups.yml</code>.</li>
-</ul>
-<h3>Acciones</h3>
-<div class="table-wrap"><table><thead><tr><th>Acción</th><th>Función</th></tr></thead><tbody><tr><td data-label="Acción"><code>rankup</code></td><td data-label="Función">Intenta subir al siguiente rango.</td></tr><tr><td data-label="Acción"><code>prestige</code></td><td data-label="Función">Intenta ejecutar el prestigio.</td></tr><tr><td data-label="Acción"><code>close</code></td><td data-label="Función">Cierra el inventario.</td></tr><tr><td data-label="Acción"><code>prev-page</code> / <code>next-page</code></td><td data-label="Función">Cambia de página.</td></tr><tr><td data-label="Acción"><code>prestige-gui</code></td><td data-label="Función">Abre la GUI de prestigios.</td></tr><tr><td data-label="Acción"><code>ranks-gui</code></td><td data-label="Función">Vuelve a la GUI de rangos.</td></tr><tr><td data-label="Acción"><code>none</code></td><td data-label="Función">Sin acción.</td></tr></tbody></table></div>
-<h3>Estados visuales</h3>
-<div class="table-wrap"><table><thead><tr><th>Estado</th><th>Cuándo se usa</th><th>Aspecto por defecto</th></tr></thead><tbody><tr><td data-label="Estado"><code>current</code></td><td data-label="Cuándo se usa">Rango actual del jugador.</td><td data-label="Aspecto por defecto">Verde, “✔ Rango actual”.</td></tr><tr><td data-label="Estado"><code>available</code></td><td data-label="Cuándo se usa">Siguiente rango y requisitos cumplidos.</td><td data-label="Aspecto por defecto">Dorado, “✔ Puedes subir”.</td></tr><tr><td data-label="Estado"><code>locked</code></td><td data-label="Cuándo se usa">Siguiente rango con requisitos pendientes.</td><td data-label="Aspecto por defecto">Rojo, “✘ Requisitos incompletos”.</td></tr><tr><td data-label="Estado"><code>unlocked</code></td><td data-label="Cuándo se usa">Rango ya superado.</td><td data-label="Aspecto por defecto">Verde, “✔ Completado”.</td></tr><tr><td data-label="Estado"><code>future</code></td><td data-label="Cuándo se usa">Rango posterior al siguiente.</td><td data-label="Aspecto por defecto">Gris, “◈ Bloqueado”.</td></tr><tr><td data-label="Estado"><code>max</code></td><td data-label="Cuándo se usa">El jugador está en el rango máximo.</td><td data-label="Aspecto por defecto">Dorado, “✦ Rango máximo”.</td></tr></tbody></table></div>
-<h3>Ítems y multi-versión</h3>
-<div class="table-wrap"><table><thead><tr><th>Campo</th><th>Detalle</th></tr></thead><tbody><tr><td data-label="Campo"><code>material</code></td><td data-label="Detalle">Nombre moderno o legacy; se mapea automáticamente.</td></tr><tr><td data-label="Campo"><code>amount</code></td><td data-label="Detalle">Cantidad de 1 a 64.</td></tr><tr><td data-label="Campo"><code>data</code></td><td data-label="Detalle">Data value en 1.7–1.12.</td></tr><tr><td data-label="Campo"><code>custom-model-data</code></td><td data-label="Detalle">Se ignora por debajo de 1.14.</td></tr><tr><td data-label="Campo"><code>skull-owner</code></td><td data-label="Detalle">Nombre para cabezas de jugador.</td></tr><tr><td data-label="Campo"><code>glow</code> / <code>glow-when</code></td><td data-label="Detalle">Brillo falso; en 1.7 no se puede ocultar el encantamiento.</td></tr><tr><td data-label="Campo"><code>material-by-status</code></td><td data-label="Detalle">Cambia el material según el estado.</td></tr><tr><td data-label="Campo"><code>lore-by-status</code></td><td data-label="Detalle">Cambia el lore según el estado.</td></tr></tbody></table></div><div class="callout tip"><strong>Sonidos</strong>
-<p><code>sounds</code> de <code>gui.yml</code> sobrescribe los sonidos globales de
-<code>config.yml</code>. Los nombres modernos se traducen a legacy en 1.7/1.8 cuando es posible.</p>
-</div>
-<h3>GUI de prestigios</h3>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>prestige-gui:
-  title: &quot;&lt;bold&gt;&lt;gradient:#FFD700:#FF8C00&gt;✦ Prestigios ✦&lt;/gradient&gt;&lt;/bold&gt;&quot;
-  rows: 5
-  fill: true
-  border:
-    enabled: true
-    material: BLACK_STAINED_GLASS_PANE
-    name: &quot; &quot;
-  prestige-slots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25]
-  items:
-    prestige-info:
-      slot: 4
-      material: NETHER_STAR
-      name: &quot;&lt;gold&gt;Prestigio actual: {prestige}&lt;/gold&gt;&quot;
-      lore:
-        - &quot;&lt;gray&gt;Siguiente: {next_prestige}&lt;/gray&gt;&quot;
-        - &quot;{requirements}&quot;
-    prestige-item:
-      material: NETHER_STAR
-      name: &quot;&lt;gold&gt;Prestigio {prestige}&lt;/gold&gt;&quot;
-      lore:
-        - &quot;{status}&quot;
-        - &quot;{requirements}&quot;
-      action: prestige
-    prestige-button:
-      slot: 40
-      material: END_CRYSTAL
-      name: &quot;&lt;green&gt;✦ PRESTIGIAR ✦&lt;/green&gt;&quot;
-      action: prestige</code></pre></div>
-<h3>Placeholders de GUI</h3>
-<p class="small muted"><code>{player}</code>, <code>{rank}</code>, <code>{rank_id}</code>,
-<code>{next_rank}</code>, <code>{current_rank}</code>, <code>{player_next_rank}</code>,
-<code>{entry_next}</code>, <code>{status}</code>, <code>{status_icon}</code>,
-<code>{status_key}</code>, <code>{progress}</code>, <code>{progress_bar}</code>,
-<code>{requirements}</code>, <code>{requirement_money}</code>,
-<code>{requirement_playtime}</code>, <code>{requirement_xp}</code>,
-<code>{requirement_items}</code>, <code>{requirement_permission}</code>,
-<code>{requirement_placeholder}</code>, <code>{prestige}</code>,
-<code>{next_prestige}</code>, <code>{current_prestige}</code>,
-<code>{prestige_display}</code>, <code>{playtime}</code>, <code>{page}</code>,
-<code>{pages}</code>, <code>{rank_index}</code>, <code>{ranks_total}</code>.</p>
-</section><section id="editor"><div class="section-head"><span class="kicker">Potencia</span><h2>Editor in-game</h2></div>
-<p class="lead">El editor permite a un administrador configurar rangos, prestigios,
-requisitos y recompensas desde Minecraft, sin editar YAML a mano.</p>
-<div class="code-block"><div class="code-head"><span>TEXT</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>/sranks editor</code></pre></div>
-<div class="badges">
-  <span class="pill ok">Permiso: sranks.admin.editor</span>
-  <span class="pill">También sranks.admin</span>
-  <span class="pill gold">Guardado en editor.yml</span>
-  <span class="pill">Persistente</span>
-</div>
-<h3>Qué puedes editar</h3>
-<div class="table-wrap"><table><thead><tr><th>Pantalla</th><th>Qué hace</th></tr></thead><tbody><tr><td data-label="Pantalla">Menú principal</td><td data-label="Qué hace">Acceso a rangos, prestigios, recarga y cierre.</td></tr><tr><td data-label="Pantalla">Lista de rangos</td><td data-label="Qué hace">Lista paginada con id, grupo, requisitos, comandos e ítems.</td></tr><tr><td data-label="Pantalla">Lista de prestigios</td><td data-label="Qué hace">Lista paginada con nivel, reset, requisitos y recompensas.</td></tr><tr><td data-label="Pantalla">Editor de rango</td><td data-label="Qué hace">Nombre, grupo, permiso, orden, requisitos, recompensas, comandos, ítems, apariencia, probar y reset.</td></tr><tr><td data-label="Pantalla">Editor de prestigio</td><td data-label="Qué hace">Nombre, reset-rank, requisitos, recompensas, comandos, ítems, apariencia, probar y reset.</td></tr><tr><td data-label="Pantalla">Recompensas</td><td data-label="Qué hace">Dinero, comandos, ítems, mensaje, broadcast y probar.</td></tr><tr><td data-label="Pantalla">Comandos</td><td data-label="Qué hace">Añadir, editar y eliminar comandos de recompensa.</td></tr><tr><td data-label="Pantalla">Ítems</td><td data-label="Qué hace">Añadir de la mano, elegir desde una GUI, cabeza Base64, cantidad y eliminar.</td></tr><tr><td data-label="Pantalla">Apariencia</td><td data-label="Qué hace">Ítem de cada estado: actual, siguiente disponible, bloqueado, superado, futuro y máximo.</td></tr><tr><td data-label="Pantalla">Selector de ítems</td><td data-label="Qué hace">Espacio central para colocar ítems normales o custom con NBT/comandos.</td></tr><tr><td data-label="Pantalla">Requisitos</td><td data-label="Qué hace">Añadir, editar, eliminar, elegir ítem y alternar consumo.</td></tr></tbody></table></div>
-<h3>Flujo rápido</h3>
-<div class="steps">
-  <div class="step"><strong>Abre el editor</strong><span>Con un jugador con permiso: <code>/sranks editor</code>.</span></div>
-  <div class="step"><strong>Elige rango o prestigio</strong><span>La lista está paginada automáticamente.</span></div>
-  <div class="step"><strong>Edita recompensas</strong><span>Pincha en Recompensas. Para comandos e ítems entra en sus pantallas específicas.</span></div>
-  <div class="step"><strong>Añade ítems desde la mano o la GUI</strong><span>El selector abre un espacio central para colocar el ítem; guarda una copia exacta y devuelve el original.</span></div>
-  <div class="step"><strong>Personaliza la apariencia</strong><span>En Apariencia elige el estado (actual, siguiente, bloqueado, superado...) y cambia su ítem, nombre, lore o cabeza Base64.</span></div>
-  <div class="step"><strong>Prueba y ajusta</strong><span>El botón “Probar recompensas” ejecuta dinero/ítems/comandos sobre ti.</span></div>
-</div>
-<h3>Atajos</h3>
-<div class="table-wrap"><table><thead><tr><th>Acción</th><th>Resultado</th></tr></thead><tbody><tr><td data-label="Acción">Click izquierdo en un comando</td><td data-label="Resultado">Abre el chat para editarlo.</td></tr><tr><td data-label="Acción">Click derecho en un comando</td><td data-label="Resultado">Elimina el comando.</td></tr><tr><td data-label="Acción">Click izquierdo en un ítem</td><td data-label="Resultado">Pide la nueva cantidad.</td></tr><tr><td data-label="Acción">Click derecho en un ítem</td><td data-label="Resultado">Elimina el ítem.</td></tr><tr><td data-label="Acción">Click izquierdo en un requisito</td><td data-label="Resultado">Edita su valor.</td></tr><tr><td data-label="Acción">Click derecho en un requisito</td><td data-label="Resultado">Elimina el requisito.</td></tr><tr><td data-label="Acción">Shift + click en un requisito</td><td data-label="Resultado">Activa/desactiva si se consume (dinero/ítems/XP).</td></tr><tr><td data-label="Acción">Escribe “cancelar” en un prompt</td><td data-label="Resultado">Cancela la edición y vuelve al menú.</td></tr></tbody></table></div><div class="callout info"><strong>Prompts de chat</strong>
-<p>Los textos se piden por chat para evitar límites de la GUI. Se validan antes de guardar
-y hay un tiempo máximo de 120 segundos por prompt. Puedes escribir <code>cancelar</code>
-para salir sin cambios.</p>
-</div>
-<h3>Cabezas Base64 y ítems custom</h3>
-<p>En la pantalla de apariencia, el botón <strong>Cabeza Base64</strong> pide el código
-de textura. El chat de 1.7/1.8 limita a 100 caracteres, así que el editor acepta el
-código en varias partes y lo une; escribe <code>fin</code> al terminar. En versiones
-modernas se usa <code>PlayerProfile</code>; en 1.7–1.16 se aplica con
-<code>GameProfile</code> por reflexión. También puedes colocar una cabeza custom en
-el selector y se guarda su NBT exacto.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>gui-item:
-  skull-base64-by-status:
-    current: &quot;eyJ0ZXh0dXJlcyI6...&quot;
-  serialized-by-status:
-    current:
-      # ítem exacto con nombre, lore, NBT y comandos
-      ==: org.bukkit.inventory.ItemStack
-      type: PLAYER_HEAD</code></pre></div>
-<h3>Overrides: <code>editor.yml</code></h3>
-<p>El editor no reescribe <code>rankups.yml</code> ni <code>prestiges.yml</code>. Guarda solo
-los campos modificados en <code>editor.yml</code>, que se aplica después del YAML base.
-Así se conservan comentarios y el resto de la configuración.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>ranks:
+      money: 250">Copiar</button></div>
+            <pre><code>ranks:
   aprendiz:
+    order: 1
+    requirements:
+      money: 1000
     rewards:
-      money: 1234.0
-      commands:
-        - &quot;say {PLAYER} ha subido a {RANK}.&quot;
-      items:
-        - material: DIAMOND_SWORD
-          amount: 1
-          name: &quot;&lt;gold&gt;Espada del aprendiz&lt;/gold&gt;&quot;
-          glow: true
-          serialized:
-            type: DIAMOND_SWORD
-            meta:
-              display-name: &quot;§r§6Espada del aprendiz&quot;
-prestiges:
-  prestige_1:
-    rewards:
-      money: 7777.0</code></pre></div><div class="callout warn"><strong>Alcance del editor</strong>
-<p>El editor edita <strong>rangos/prestigios existentes</strong>, sus requisitos, recompensas,
-comandos, ítems y metadatos. No crea/elimina rangos, no cambia la disposición de
-<code>gui.yml</code>, no edita <code>messages.yml</code> ni los ajustes globales de
-<code>config.yml</code>. Eso sigue siendo YAML para no romper el diseño.</p>
-</div>
-<p>Si quieres volver al YAML base, usa “Restablecer override” en el editor de ese rango
-o prestigio. Los cambios se aplican al instante y persisten tras reiniciar el servidor.</p>
-</section><section id="formato"><div class="section-head"><span class="kicker">Texto</span><h2>Formato, colores y gradientes</h2></div>
-<p class="lead">Todos los textos del plugin aceptan formato mixto. El motor elige la mejor
-salida disponible según el servidor.</p>
-<div class="table-wrap"><table><thead><tr><th>Motor</th><th>Cuándo se usa</th><th>Sintaxis</th></tr></thead><tbody><tr><td data-label="Motor">MiniMessage / Adventure</td><td data-label="Cuándo se usa">Paper 1.16.5+ y 26.x, si está disponible.</td><td data-label="Sintaxis"><code>&lt;bold&gt;</code>, <code>&lt;gradient&gt;</code>, <code>&lt;rainbow&gt;</code>, <code>&lt;#RRGGBB&gt;</code>.</td></tr><tr><td data-label="Motor">Hex legacy</td><td data-label="Cuándo se usa">1.16+, sin Adventure o como fallback.</td><td data-label="Sintaxis"><code>&amp;#RRGGBB</code>, <code>§x§R§R§G§G§B§B</code>.</td></tr><tr><td data-label="Motor">Legacy</td><td data-label="Cuándo se usa">Siempre disponible; obligatorio en 1.7–1.15.</td><td data-label="Sintaxis"><code>&amp;c</code>, <code>§c</code>, <code>&amp;l</code>, <code>&amp;r</code>.</td></tr></tbody></table></div><div class="code-block"><div class="code-head"><span>TEXT</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>&amp;c&amp;lHola
-&amp;#FF0000Hola
-&lt;bold&gt;&lt;color:#FF5555&gt;Hola&lt;/color&gt;&lt;/bold&gt;
-&lt;bold&gt;&lt;gradient:#00BFFF:#1E90FF&gt;SRanks&lt;/gradient&gt;&lt;/bold&gt;
-&lt;rainbow&gt;Arcoíris&lt;/rainbow&gt;
-&lt;bold&gt;&lt;italic&gt;&lt;underlined&gt;Énfasis&lt;/underlined&gt;&lt;/italic&gt;&lt;/bold&gt;</code></pre></div>
-<h3>Degradación automática</h3>
-<ul>
-  <li>1.16+/26.x: hex real por carácter.</li>
-  <li>1.7–1.15: el color hex se sustituye por el color vanilla más cercano.</li>
-  <li>Sin hex, un gradiente usa su primer color para evitar códigos literales.</li>
-  <li>Sin Adventure, se usa el renderizador legacy interno; con Adventure, chat/títulos/action bar usan componentes nativos.</li>
-  <li>Las etiquetas desconocidas se conservan como texto literal: <code>&lt;3</code> no desaparece.</li>
-</ul>
-<div class="badges">
-  <span class="pill">Negrita</span><span class="pill">Cursiva</span>
-  <span class="pill">Subrayado</span><span class="pill">Tachado</span>
-  <span class="pill">Obfuscated</span><span class="pill">Gradientes</span>
-  <span class="pill">Rainbow</span><span class="pill">Hex</span>
-</div>
-<div class="callout tip"><strong>Símbolos seguros</strong>
-<p>Los símbolos <code>✔ ✘ ✦ ➤ ◀ ▶ ◈</code> se renderizan igual en 1.7 y 26.x.
-Los títulos de inventario muy largos pueden truncarse por el cliente; usa textos cortos.</p>
-</div></section><section id="placeholders"><div class="section-head"><span class="kicker">Integraciones</span><h2>Placeholders</h2></div>
-<p class="lead">SRanks registra una expansión de PlaceholderAPI con identificador
-<code>sranks</code> y también expone placeholders propios en mensajes y GUI.</p>
-<div class="table-wrap"><table><thead><tr><th>Placeholder</th><th>Valor</th></tr></thead><tbody><tr><td data-label="Placeholder"><code>%sranks_rank%</code></td><td data-label="Valor">ID del rango actual.</td></tr><tr><td data-label="Placeholder"><code>%sranks_rank_display%</code></td><td data-label="Valor">Nombre visible sin formato.</td></tr><tr><td data-label="Placeholder"><code>%sranks_rank_index%</code></td><td data-label="Valor">Posición 1-based del rango.</td></tr><tr><td data-label="Placeholder"><code>%sranks_ranks_total%</code></td><td data-label="Valor">Total de rangos.</td></tr><tr><td data-label="Placeholder"><code>%sranks_next_rank%</code></td><td data-label="Valor">ID del siguiente rango.</td></tr><tr><td data-label="Placeholder"><code>%sranks_next_rank_display%</code></td><td data-label="Valor">Nombre del siguiente rango.</td></tr><tr><td data-label="Placeholder"><code>%sranks_prestige%</code></td><td data-label="Valor">Prestigio actual.</td></tr><tr><td data-label="Placeholder"><code>%sranks_next_prestige%</code></td><td data-label="Valor">Siguiente nivel de prestigio.</td></tr><tr><td data-label="Placeholder"><code>%sranks_next_prestige_display%</code></td><td data-label="Valor">Nombre del siguiente prestigio.</td></tr><tr><td data-label="Placeholder"><code>%sranks_playtime%</code></td><td data-label="Valor">Tiempo jugado formateado.</td></tr><tr><td data-label="Placeholder"><code>%sranks_playtime_seconds%</code></td><td data-label="Valor">Segundos jugados.</td></tr><tr><td data-label="Placeholder"><code>%sranks_progress%</code></td><td data-label="Valor">Progreso 0–100 hacia el siguiente rango.</td></tr><tr><td data-label="Placeholder"><code>%sranks_progress_bar%</code></td><td data-label="Valor">Barra de progreso.</td></tr><tr><td data-label="Placeholder"><code>%sranks_can_rankup%</code></td><td data-label="Valor"><code>true</code>/<code>false</code>.</td></tr><tr><td data-label="Placeholder"><code>%sranks_status%</code></td><td data-label="Valor"><code>available</code>, <code>locked</code> o <code>max</code>.</td></tr><tr><td data-label="Placeholder"><code>%sranks_requirements%</code></td><td data-label="Valor">Requisitos en texto.</td></tr><tr><td data-label="Placeholder"><code>%sranks_requirement_&lt;tipo&gt;%</code></td><td data-label="Valor">money, playtime, xp, items, permission o placeholder.</td></tr></tbody></table></div>
-<h3>Placeholders internos en mensajes y GUI</h3>
-<p class="small muted">En <code>messages.yml</code>, <code>gui.yml</code> y recompensas:
-<code>{player}</code>, <code>{rank}</code>, <code>{next_rank}</code>,
-<code>{old_rank}</code>, <code>{RANK}</code>, <code>{OLD_RANK}</code>,
-<code>{PRESTIGE}</code>, <code>{progress}</code>, <code>{progress_bar}</code>,
-<code>{requirements}</code>, <code>{requirement_money}</code>,
-<code>{requirement_playtime}</code>, <code>{requirement_xp}</code>,
-<code>{requirement_items}</code>, <code>{requirement_permission}</code>,
-<code>{requirement_placeholder}</code>, <code>{playtime}</code>.</p>
-<div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>requirements:
-  placeholder:
-    placeholder: &quot;%player_level%&quot;
-    operator: &quot;&gt;=&quot;
-    value: &quot;30&quot;</code></pre></div><div class="callout warn"><strong>PAPI en 26.3</strong>
-<p>Algunas versiones antiguas de PlaceholderAPI (por ejemplo 2.11.6) fallan al arrancar en
-26.3 por su propio parser de versión. SRanks lo detecta y sigue funcionando sin PAPI.
-Usa una build de PlaceholderAPI compatible con tu servidor.</p>
-</div></section><section id="archivos"><div class="section-head"><span class="kicker">Referencia</span><h2>Archivos y configuración</h2></div>
-<p class="lead">La configuración está separada por responsabilidades. Los archivos existentes
-no se sobrescriben; las claves nuevas de mensajes se rellenan desde los defaults del JAR.</p>
-<div class="table-wrap"><table><thead><tr><th>Archivo</th><th>Contenido</th></tr></thead><tbody><tr><td data-label="Archivo"><code>config.yml</code></td><td data-label="Contenido">Prefijo, autosave, playtime, Vault, detección, compatibilidad, sonidos, top y comandos.</td></tr><tr><td data-label="Archivo"><code>messages.yml</code></td><td data-label="Contenido">Todos los mensajes, títulos, action bars y textos del editor.</td></tr><tr><td data-label="Archivo"><code>gui.yml</code></td><td data-label="Contenido">GUI de rangos/prestigios, bordes, relleno, sonidos, plantillas y botones.</td></tr><tr><td data-label="Archivo"><code>rankups.yml</code></td><td data-label="Contenido">Rangos, requisitos, recompensas y overrides de GUI.</td></tr><tr><td data-label="Archivo"><code>prestiges.yml</code></td><td data-label="Contenido">Niveles de prestigio, reset, requisitos y recompensas.</td></tr><tr><td data-label="Archivo"><code>editor.yml</code></td><td data-label="Contenido">Overrides del editor in-game (precedencia sobre el YAML base).</td></tr><tr><td data-label="Archivo"><code>playerdata/&lt;uuid&gt;.yml</code></td><td data-label="Contenido">Rango, prestigio y tiempo de juego.</td></tr></tbody></table></div>
-<h3>Claves principales de <code>config.yml</code></h3>
-<div class="table-wrap"><table><thead><tr><th>Clave</th><th>Default</th><th>Descripción</th></tr></thead><tbody><tr><td data-label="Clave"><code>prefix</code></td><td data-label="Default">gradient SRanks</td><td data-label="Descripción">Prefijo usado en los mensajes con <code>{prefix}</code>.</td></tr><tr><td data-label="Clave"><code>settings.playtime-tick-seconds</code></td><td data-label="Default"><code>60</code></td><td data-label="Descripción">Consolidación del tiempo de juego.</td></tr><tr><td data-label="Clave"><code>settings.autosave-minutes</code></td><td data-label="Default"><code>5</code></td><td data-label="Descripción">Guardado async de datos; 0 lo desactiva.</td></tr><tr><td data-label="Clave"><code>settings.starting-rank</code></td><td data-label="Default"><code>aprendiz</code></td><td data-label="Descripción">Rango inicial para nuevos jugadores.</td></tr><tr><td data-label="Clave"><code>settings.reset-prestige-on-reset</code></td><td data-label="Default"><code>false</code></td><td data-label="Descripción">Reset de prestigio con <code>/sranks reset</code>.</td></tr><tr><td data-label="Clave"><code>permissions.require-rank-permission</code></td><td data-label="Default"><code>false</code></td><td data-label="Descripción">Activa el nodo automático por rango.</td></tr><tr><td data-label="Clave"><code>vault.sync-group</code></td><td data-label="Default"><code>true</code></td><td data-label="Descripción">Cambia el grupo de Vault al subir.</td></tr><tr><td data-label="Clave"><code>vault.remove-old-group</code></td><td data-label="Default"><code>true</code></td><td data-label="Descripción">Retira el grupo anterior.</td></tr><tr><td data-label="Clave"><code>rank-detection.mode</code></td><td data-label="Default"><code>data</code></td><td data-label="Descripción"><code>data</code>, <code>vault</code> o <code>permission</code>.</td></tr><tr><td data-label="Clave"><code>compat.use-adventure</code></td><td data-label="Default"><code>auto</code></td><td data-label="Descripción">Usa Adventure si está disponible.</td></tr><tr><td data-label="Clave"><code>compat.placeholderapi-in-text</code></td><td data-label="Default"><code>true</code></td><td data-label="Descripción">Resuelve PAPI en mensajes/GUI.</td></tr><tr><td data-label="Clave"><code>compat.use-economy-format</code></td><td data-label="Default"><code>true</code></td><td data-label="Descripción">Usa el formato de la economía en la GUI.</td></tr><tr><td data-label="Clave"><code>sounds.*</code></td><td data-label="Default">modernos</td><td data-label="Descripción">Sonidos globales; `gui.yml` puede sobrescribirlos.</td></tr><tr><td data-label="Clave"><code>top.size</code> / <code>cache-seconds</code></td><td data-label="Default"><code>10</code> / <code>60</code></td><td data-label="Descripción">Tamaño y caché del top.</td></tr><tr><td data-label="Clave"><code>commands.rankup-command.enabled</code></td><td data-label="Default"><code>false</code></td><td data-label="Descripción">Activa <code>/rankup</code> dinámico.</td></tr><tr><td data-label="Clave"><code>commands.ranks-mode</code></td><td data-label="Default"><code>gui</code></td><td data-label="Descripción"><code>gui</code> o <code>text</code>.</td></tr><tr><td data-label="Clave"><code>commands.prestiges-mode</code></td><td data-label="Default"><code>gui</code></td><td data-label="Descripción"><code>gui</code> o <code>text</code>.</td></tr></tbody></table></div>
-<h3>Mensajes</h3>
-<p><code>messages.yml</code> está agrupado por contexto: <code>general</code>,
-<code>rankup</code>, <code>prestige</code>, <code>info</code>, <code>ranks</code>,
-<code>prestiges</code>, <code>top</code>, <code>help</code>, <code>admin</code>,
-<code>gui</code> y <code>editor</code>. Los títulos y action bars de rankup/prestige
-también se configuran ahí. Si una clave falta, se usa el default del JAR; nunca se
-sobrescribe tu archivo.</p>
-<div class="callout warn"><strong>Precedencia de overrides</strong>
-<p>Si un rango tiene una entrada en <code>editor.yml</code>, sus campos mandan sobre
-<code>rankups.yml</code>. Para volver al YAML base, usa “Restablecer override” en el editor
-o elimina la entrada de <code>editor.yml</code> y ejecuta <code>/sranks reload</code>.</p>
-</div></section><section id="vault"><div class="section-head"><span class="kicker">Integraciones</span><h2>Vault y progreso del jugador</h2></div>
-<p class="lead">Vault es opcional, pero aporta dinero para requisitos/recompensas y,
-si el proveedor lo permite, cambio de grupo al subir de rango.</p>
-<div class="table-wrap"><table><thead><tr><th>Función</th><th>Comportamiento</th></tr></thead><tbody><tr><td data-label="Función">Dinero</td><td data-label="Comportamiento">Requisitos y recompensas usan la economía registrada en Vault.</td></tr><tr><td data-label="Función">Grupos</td><td data-label="Comportamiento">Con <code>vault.sync-group: true</code>, cambia el grupo primario al subir.</td></tr><tr><td data-label="Función">Detección</td><td data-label="Comportamiento"><code>rank-detection.mode: vault</code> sincroniza al entrar con el grupo primario.</td></tr><tr><td data-label="Función">Fallback</td><td data-label="Comportamiento">Si el proveedor no soporta grupos, usa comandos de recompensa.</td></tr></tbody></table></div><div class="code-block"><div class="code-head"><span>YAML</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code># Si tu proveedor de Vault no cambia grupos, esto es 100% fiable:
-rewards:
-  commands:
-    - &quot;lp user {PLAYER} parent set {RANK}&quot;</code></pre></div><div class="callout info"><strong>Proveedores de grupos</strong>
-<p>LuckPerms suele funcionar mediante Vault, pero algunos setups no registran el proveedor
-de grupos. SRanks detecta <code>hasGroupSupport()</code>; si no está disponible, no rompe
-el rankup: solo omite el cambio de grupo y deja que tus comandos lo hagan.</p>
-</div>
-<h3>Tiempo de juego</h3>
-<ul>
-  <li>SRanks mide el tiempo por sí mismo: sesión actual + acumulado persistido.</li>
-  <li>No usa estadísticas de vanilla que cambiaron de nombre en 1.13.</li>
-  <li>Se consolida cada <code>settings.playtime-tick-seconds</code>.</li>
-  <li>Se guarda cada <code>settings.autosave-minutes</code>, al salir, al subir y al apagar.</li>
-  <li>El tiempo empieza a contar desde la primera sesión que ve SRanks.</li>
-</ul>
-<h3>Datos y top</h3>
-<p>Cada jugador tiene un YAML en <code>playerdata/&lt;uuid&gt;.yml</code> con rango, prestigio
-y segundos jugados. El top lee esos archivos de forma async y cachea el resultado.
-Los datos de jugadores online se superponen al archivo para que el top esté actualizado.</p>
-<div class="badges">
-  <span class="pill">Async I/O</span><span class="pill">Autosave</span>
-  <span class="pill">Top con caché</span><span class="pill">Guardado configurable</span>
-</div>
-</section><section id="compilar"><div class="section-head"><span class="kicker">Desarrollo</span><h2>Compilar y probar</h2></div>
-<p class="lead">El proyecto Maven genera un JAR único. Los tests unitarios cubren el motor
-de formato, los YAML, requisitos, serialización del editor y defaults de mensajes.</p>
-<div class="code-block"><div class="code-head"><span>BASH</span><button class="copy-btn" type="button" aria-label="Copiar código">Copiar</button></div><pre tabindex="0"><code>mvn clean test
-mvn clean package
+      money: 250</code></pre>
+          </div>
+          <p>La progresión se define por orden y requisitos combinados. Los prestigios trabajan como una segunda capa de avance.</p>
+        </section>
 
-# Resultado:
-# target/SRanks-1.0.0.jar</code></pre></div><div class="table-wrap"><table><thead><tr><th>Requisito</th><th>Detalle</th></tr></thead><tbody><tr><td data-label="Requisito">JDK de compilación</td><td data-label="Detalle">21 o superior (el proyecto usa <code>--release 8</code>).</td></tr><tr><td data-label="Requisito">Java en runtime</td><td data-label="Detalle">Java 8+ para 1.7.10–1.21.x; Java 25+ para 26.x.</td></tr><tr><td data-label="Requisito">Spigot/Paper</td><td data-label="Detalle">1.7.10 hasta 26.x.</td></tr><tr><td data-label="Requisito">Dependencias de build</td><td data-label="Detalle">Spigot API 1.16.5, VaultAPI 1.7, PlaceholderAPI 2.11.6, Adventure 4.17 (provided).</td></tr><tr><td data-label="Requisito">Dependencias de runtime</td><td data-label="Detalle">Ninguna obligatoria además del servidor; Vault/PAPI/LuckPerms opcionales.</td></tr></tbody></table></div>
-<h3>Matriz de pruebas realizada</h3>
-<div class="table-wrap"><table><thead><tr><th>Entorno</th><th>Resultado</th></tr></thead><tbody><tr><td data-label="Entorno">Paper 1.7.10 + Java 8</td><td data-label="Resultado">Arranque, configs, comandos, datos y `/rankup` dinámico.</td></tr><tr><td data-label="Entorno">Paper 1.8.8 + Java 8</td><td data-label="Resultado">GUI legacy, editor, clics, paginación, recompensas y prestigios.</td></tr><tr><td data-label="Entorno">Paper 1.21.4 + Java 26</td><td data-label="Resultado">GUI, Adventure, hex, PlaceholderAPI, rankup y prestige.</td></tr><tr><td data-label="Entorno">Paper 26.3 + Java 26</td><td data-label="Resultado">Carga, comandos, `/rankup` dinámico y Adventure.</td></tr><tr><td data-label="Entorno">Vault 1.7.3 + economía de prueba</td><td data-label="Resultado">Depósito de recompensa de dinero en un rankup.</td></tr></tbody></table></div><div class="callout tip"><strong>Checklist rápida</strong>
-<p>1) El plugin arranca sin errores. 2) <code>/sranks help</code> responde. 3) La GUI abre y
-pagina. 4) Un rankup con requisitos cumple y descuenta. 5) Las recompensas llegan.
-6) <code>/sranks editor</code> guarda y persiste. 7) <code>/sranks reload</code> no rompe nada.</p>
-</div>
-<p class="small muted">El build actual ejecuta <strong>34 tests</strong> y termina sin fallos.
-La GUI/editor de 26.3 no se pudo automatizar con bot por el protocolo, pero sí se validaron
-carga, clases, comandos y Adventure.</p>
-</section><section id="limitaciones"><div class="section-head"><span class="kicker">Transparencia</span><h2>Limitaciones reales</h2></div>
-<p class="lead">Estas son las restricciones que debes conocer antes de montar el plugin en
-producción. Están documentadas para evitar sorpresas.</p>
-<div class="grid two">
-  <div class="card"><div class="icon">!</div><h3>Dinero y Vault</h3><p>Las recompensas/requisitos de dinero necesitan Vault y una economía. Sin proveedor, se avisa y se omiten solo esas partes.</p></div>
-  <div class="card"><div class="icon">!</div><h3>Grupos de Vault</h3><p>El cambio de grupo depende del proveedor. Si no implementa grupos, usa comandos de recompensa (LuckPerms, etc.).</p></div>
-  <div class="card"><div class="icon">!</div><h3>Ítems serializados</h3><p>El editor guarda el ítem exacto para la misma versión del servidor. Para portabilidad entre versiones, usa comandos.</p></div>
-  <div class="card"><div class="icon">!</div><h3>Alcance del editor</h3><p>No crea/elimina rangos, no edita <code>gui.yml</code>, <code>messages.yml</code> ni la config global. Eso sigue en YAML.</p></div>
-  <div class="card"><div class="icon">!</div><h3>1.7 y formato</h3><p>Sin hex ni Adventure. Los gradientes degradan al primer color. El glow muestra encantamiento porque no existe <code>ItemFlag</code>.</p></div>
-  <div class="card"><div class="icon">!</div><h3>Títulos largos</h3><p>El cliente limita la longitud visible del título de inventario. Usa títulos cortos y placeholders compactos.</p></div>
-  <div class="card"><div class="icon">!</div><h3>Requisitos de ítems</h3><p>Se comparan por material y data. No se exige nombre/NBT exacto; para eso usa un requisito de placeholder.</p></div>
-  <div class="card"><div class="icon">!</div><h3>PlaceholderAPI en 26.3</h3><p>Algunas versiones antiguas de PAPI fallan al arrancar en 26.3 por su propio parser. SRanks sigue sin PAPI.</p></div>
-</div>
-<div class="callout warn"><strong>Más notas</strong>
-<p><strong>Playtime:</strong> no importa estadísticas históricas de vanilla; empieza con SRanks.
-<strong>Top:</strong> lee YAML en async y cachea; para redes muy grandes, una base de datos
-sería el siguiente paso. <strong>/rankup:</strong> si otro plugin ya usa ese nombre, SRanks no
-lo pisa. <strong>PAPI 26.3:</strong> usa una build compatible. <strong>1.7:</strong> el servidor
-debe correr Java 8+; el JAR es bytecode 8.</p>
-</div></section><section id="faq"><div class="section-head"><span class="kicker">Ayuda</span><h2>Preguntas frecuentes</h2></div>
-<div class="faq">
-  <details><summary>He subido de rango pero no me han dado el dinero.</summary><div class="faq-body"><p>Revisa que Vault esté instalado y que exista un proveedor de economía. Si no lo hay, SRanks avisa en consola y omite solo el dinero; los comandos/ítems sí se entregan. Con Vault activo, comprueba que la cantidad sea mayor que 0.</p></div></details>
-  <details><summary>No existe /rankup.</summary><div class="faq-body"><p>Por defecto está desactivado. Añade <code>commands.rankup-command.enabled: true</code> a <code>config.yml</code> y ejecuta <code>/sranks reload</code>. Si otro plugin ya usa <code>/rankup</code>, SRanks no lo reemplaza; usa <code>/sranks</code>.</p></div></details>
-  <details><summary>El editor no guarda mis cambios.</summary><div class="faq-body"><p>Comprueba que tienes <code>sranks.admin.editor</code> o <code>sranks.admin</code>. Los cambios se guardan en <code>editor.yml</code>; si el archivo no es escribible, revisa permisos. Después de guardar, SRanks recarga el rank manager automáticamente.</p></div></details>
-  <details><summary>¿Dónde están los cambios del editor?</summary><div class="faq-body"><p>En <code>plugins/SRanks/editor.yml</code>. Es una capa de overrides para no destruir los comentarios de <code>rankups.yml</code>/<code>prestiges.yml</code>. Para volver al YAML base, usa “Restablecer override”.</p></div></details>
-  <details><summary>¿Cómo doy permisos con LuckPerms?</summary><div class="faq-body"><p>Usa los nodos de la sección Permisos. Por ejemplo:
-  <code>lp user Nombre permission set sranks.use true</code> y
-  <code>lp user Nombre permission set sranks.admin.editor true</code>. El permiso por rango
-  se concede con el nodo configurado en el rango o con <code>sranks.rankup.&lt;id&gt;</code>.</p></div></details>
-  <details><summary>¿Por qué no aparecen los mensajes nuevos?</summary><div class="faq-body"><p>Los archivos existentes no se sobrescriben. SRanks combina los defaults del JAR para las claves que falten en <code>messages.yml</code>. Si una clave no aparece, revisa que el YAML no esté corrupto y ejecuta <code>/sranks reload</code>.</p></div></details>
-  <details><summary>¿Cómo cambio la GUI?</summary><div class="faq-body"><p>Edita <code>gui.yml</code>: título, filas, relleno, borde, sonidos, <code>rank-slots</code>, plantillas y botones. Los ítems sin <code>slot</code> son plantillas; los que tienen <code>slot</code> son fijos. Puedes sobrescribir la plantilla de un rango con <code>gui-item</code>.</p></div></details>
-  <details><summary>¿Cómo hago que un ítem custom se entregue como recompensa?</summary><div class="faq-body"><p>El editor in-game tiene “Añadir ítem de la mano”. Guarda el ítem serializado (nombre, lore, NBT, custom model data, encantamientos). Para configurarlo a mano, usa <code>items:</code> con <code>material</code>, <code>amount</code>, <code>name</code>, <code>lore</code>, etc.</p></div></details>
-  <details><summary>¿Por qué PAPI no resuelve placeholders?</summary><div class="faq-body"><p>Comprueba que PlaceholderAPI esté instalado y que <code>compat.placeholderapi-in-text</code> esté en <code>true</code>. En 26.3, algunas versiones antiguas de PAPI fallan por su propio parser; usa una build compatible.</p></div></details>
-</div>
-</section><section id="changelog"><div class="section-head"><span class="kicker">Historial</span><h2>Changelog 1.0.0</h2></div>
-<p class="lead">Primera versión pública del SRanks reescrito. Fecha: 2026-10-30.</p>
-<div class="timeline">
-  <div class="timeline-item">
-    <div class="timeline-head"><b>1.0.0</b><span>2026-10-30 · primera release pública</span></div>
-    <h4>Añadido</h4>
-    <ul>
-      <li>Rangos y prestigios configurables, con requisitos combinables y recompensas completas.</li>
-      <li>GUI paginada con cabecera “tu rango actual”, indicador de página, estados, lore por estado y sonidos.</li>
-      <li>Editor in-game para metadatos, requisitos, recompensas, comandos e ítems custom.</li>
-      <li>Apariencia por estado para rangos/prestigios, selector de ítems y cabezas Base64.</li>
-      <li>Comando opcional <code>/rankup</code> con los mismos subcomandos que <code>/sranks</code>.</li>
-      <li>PlaceholderAPI, Vault, grupos de Vault y permisos compatibles con LuckPerms.</li>
-      <li>Un JAR Java 8 para 1.7.10–26.x, con degradación de formato y materiales.</li>
-      <li>Persistencia async, autosave, top cacheado y overrides en <code>editor.yml</code>.</li>
-    </ul>
-    <h4>Corregido</h4>
-    <ul>
-      <li><code>commands</code> acepta cadena o lista; <code>items</code> acepta mapa o lista.</li>
-      <li>El dinero se lee desde <code>rewards.money</code> y desde el nivel superior.</li>
-      <li>Un ítem/comando fallido ya no cancela el resto de recompensas.</li>
-      <li>La economía de Vault se reintenta si carga después que SRanks.</li>
-      <li>Requisitos/recompensas de prestigios definidos como lista se parsean correctamente.</li>
-      <li>Tamaños/slots del editor corregidos para evitar errores fuera de rango.</li>
-    </ul>
-    <h4>Cambiado</h4>
-    <ul>
-      <li>El permiso explícito de un rango se exige siempre; el toggle global solo activa el nodo automático.</li>
-      <li>Los <code>messages.yml</code> existentes reciben las claves nuevas del editor desde los defaults.</li>
-      <li><code>/rankup</code> está desactivado por defecto y se registra dinámicamente si el nombre está libre.</li>
-    </ul>
-  </div>
-</div>
-</section>
-      <footer class="footer">
-        <div><strong>SRanks</strong> · v1.0.0 · documentación actualizada el 2026-10-30</div>
-        <div>
-          <a href="../README.md">README</a> ·
-          <a href="../CHANGELOG.md">Changelog</a> ·
-          <a href="../MODRINTH_DESCRIPTION.md">Descripción Modrinth</a> ·
-          <a href="../target/SRanks-1.0.0.jar">JAR</a>
-        </div>
-      </footer>
-    </article>
-  </div>
-</main>
-<button class="back-top" id="backTop" type="button" aria-label="Volver arriba">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
-</button>
-<script>
-(function () {
-  'use strict';
+        <section id="gui">
+          <div class="section-head">
+            <span class="kicker">Apariencia</span>
+            <h2>GUI configurable</h2>
+          </div>
+          <p>La interfaz se puede personalizar por título, filas, ítems, estados y botones. Todo se adapta para que la documentación no rompa el diseño ni la navegación.</p>
+          <div class="code-block">
+            <div class="code-head"><span>YAML</span><button class="copy-btn" type="button" data-copy="gui:
+  title: "SRanks"
+  rows: 6">Copiar</button></div>
+            <pre><code>gui:
+  title: "SRanks"
+  rows: 6</code></pre>
+          </div>
+        </section>
 
-  var html = document.documentElement;
-  var body = document.body;
-  var themeBtn = document.getElementById('themeBtn');
-  var menuBtn = document.getElementById('menuBtn');
-  var sidebarClose = document.getElementById('sidebarClose');
-  var overlay = document.getElementById('overlay');
-  var searchInput = document.getElementById('searchInput');
-  var searchResults = document.getElementById('searchResults');
-  var progress = document.getElementById('progress');
-  var backTop = document.getElementById('backTop');
+        <section id="editor">
+          <div class="section-head">
+            <span class="kicker">Potencia</span>
+            <h2>Editor in-game</h2>
+          </div>
+          <p>El editor permite configurar rangos, requisitos y recompensas desde un menú, sin tener que tocar YAML manualmente.</p>
+          <div class="code-block">
+            <div class="code-head"><span>Comando</span><button class="copy-btn" type="button" data-copy="/sranks editor">Copiar</button></div>
+            <pre><code>/sranks editor</code></pre>
+          </div>
+        </section>
+      </article>
 
-  // Tema persistente
-  try {
-    var saved = localStorage.getItem('sranks-doc-theme');
-    if (saved === 'light' || saved === 'dark') {
-      html.setAttribute('data-theme', saved);
-    }
-  } catch (e) {}
-  function syncThemeLabel() {
-    var light = html.getAttribute('data-theme') === 'light';
-    if (themeBtn) {
-      themeBtn.setAttribute('aria-label', light ? 'Activar tema oscuro' : 'Activar tema claro');
-    }
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute('content', light ? '#f7f9fc' : '#0b1017');
-  }
-  syncThemeLabel();
-  if (themeBtn) {
-    themeBtn.addEventListener('click', function () {
-      var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      html.setAttribute('data-theme', next);
-      try { localStorage.setItem('sranks-doc-theme', next); } catch (e) {}
-      syncThemeLabel();
-    });
-  }
+      <div class="footer">
+        <span>SRanks © 2026</span>
+        <span><a href="#inicio">Volver arriba</a></span>
+      </div>
+    </div>
+  </main>
 
-  // Menú móvil
-  function setNav(open) {
-    body.classList.toggle('nav-open', open);
-    if (menuBtn) menuBtn.setAttribute('aria-expanded', String(open));
-  }
-  if (menuBtn) {
-    menuBtn.addEventListener('click', function () {
-      setNav(!body.classList.contains('nav-open'));
-    });
-  }
-  if (sidebarClose) {
-    sidebarClose.addEventListener('click', function () { setNav(false); });
-  }
-  if (overlay) {
-    overlay.addEventListener('click', function () { setNav(false); });
-  }
-  document.querySelectorAll('.nav a').forEach(function (link) {
-    link.addEventListener('click', function () { setNav(false); });
-  });
-  window.addEventListener('resize', function () {
-    if (window.innerWidth > 960) setNav(false);
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      setNav(false);
-      if (searchResults) searchResults.classList.remove('open');
-      if (searchInput) searchInput.blur();
-    }
-  });
+  <button class="back-top" id="backTop" type="button" aria-label="Volver arriba">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 6-6 6 6"></path></svg>
+  </button>
 
-  // Enlaces de ancla en títulos
-  document.querySelectorAll('section > .section-head h2').forEach(function (h2) {
-    var section = h2.closest('section');
-    if (!section || !section.id) return;
-    var a = document.createElement('a');
-    a.className = 'anchor';
-    a.href = '#' + section.id;
-    a.textContent = '#';
-    a.setAttribute('aria-hidden', 'true');
-    h2.appendChild(a);
-  });
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem('sranks-doc-theme');
+        if (storedTheme === 'light' || storedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', storedTheme);
+        } else {
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+      } catch (e) {}
 
-  // Copiar bloques de código
-  document.querySelectorAll('.copy-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var block = btn.closest('.code-block');
-      var code = block ? block.querySelector('pre') : null;
-      if (!code) return;
-      var text = code.innerText;
-      function done() {
-        var old = btn.textContent;
-        btn.textContent = 'Copiado';
-        btn.classList.add('copied');
-        setTimeout(function () {
-          btn.textContent = old;
-          btn.classList.remove('copied');
-        }, 1400);
+      var body = document.body;
+      var menuBtn = document.getElementById('menuBtn');
+      var overlay = document.getElementById('overlay');
+      var themeBtn = document.getElementById('themeBtn');
+      var searchInput = document.getElementById('searchInput');
+      var searchResults = document.getElementById('searchResults');
+      var progress = document.getElementById('progress');
+      var backTop = document.getElementById('backTop');
+
+      function setTheme(nextTheme) {
+        try {
+          localStorage.setItem('sranks-doc-theme', nextTheme);
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', nextTheme);
       }
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(done, function () { fallbackCopy(text, done); });
-      } else {
-        fallbackCopy(text, done);
-      }
-    });
-  });
-  function fallbackCopy(text, done) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); done(); } catch (e) {}
-    document.body.removeChild(ta);
-  }
 
-  // Buscador
-  var index = [];
-  document.querySelectorAll('article section').forEach(function (section) {
-    var h2 = section.querySelector('h2');
-    if (!h2) return;
-    var title = h2.textContent.replace(/#$/, '').trim();
-    var text = section.innerText.replace(/\s+/g, ' ').trim();
-    index.push({ id: section.id, title: title, text: text });
-  });
-  function escapeHtml(s) {
-    return s.replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-  function renderSearch(query) {
-    if (!searchResults) return;
-    var q = query.trim().toLowerCase();
-    if (q.length < 2) {
-      searchResults.classList.remove('open');
-      searchResults.innerHTML = '';
-      return;
-    }
-    var matches = index.filter(function (item) {
-      return item.title.toLowerCase().indexOf(q) !== -1 || item.text.toLowerCase().indexOf(q) !== -1;
-    });
-    matches.sort(function (a, b) {
-      var at = a.title.toLowerCase().indexOf(q) !== -1 ? 0 : 1;
-      var bt = b.title.toLowerCase().indexOf(q) !== -1 ? 0 : 1;
-      return at - bt;
-    });
-    matches = matches.slice(0, 9);
-    if (!matches.length) {
-      searchResults.innerHTML = '<div class="search-empty">Sin resultados para “' + escapeHtml(query) + '”.</div>';
-      searchResults.classList.add('open');
-      return;
-    }
-    searchResults.innerHTML = matches.map(function (item) {
-      var pos = item.text.toLowerCase().indexOf(q);
-      var snippet = pos > 40 ? '…' + item.text.slice(pos - 40, pos + 90) : item.text.slice(0, 130);
-      return '<a class="search-result" href="#' + item.id + '"><b>' + escapeHtml(item.title) + '</b><small>'
-        + escapeHtml(snippet) + '</small></a>';
-    }).join('');
-    searchResults.classList.add('open');
-    searchResults.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        searchResults.classList.remove('open');
-        if (searchInput) searchInput.blur();
+      if (themeBtn) {
+        themeBtn.addEventListener('click', function () {
+          var currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+          setTheme(currentTheme === 'light' ? 'dark' : 'light');
+        });
+      }
+
+      if (menuBtn) {
+        menuBtn.addEventListener('click', function () {
+          body.classList.toggle('nav-open');
+          menuBtn.setAttribute('aria-expanded', String(body.classList.contains('nav-open')));
+        });
+      }
+
+      if (overlay) {
+        overlay.addEventListener('click', function () {
+          body.classList.remove('nav-open');
+          if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      document.querySelectorAll('.nav a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          document.querySelectorAll('.nav a').forEach(function (item) {
+            item.classList.remove('active');
+          });
+          link.classList.add('active');
+          body.classList.remove('nav-open');
+          if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        });
       });
-    });
-  }
-  if (searchInput) {
-    searchInput.addEventListener('input', function () { renderSearch(searchInput.value); });
-    searchInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        searchInput.value = '';
-        renderSearch('');
-        searchInput.blur();
+
+      function buildSearchData() {
+        var sections = [];
+        document.querySelectorAll('section[id]').forEach(function (section) {
+          var title = section.querySelector('h2, h3');
+          if (!title) return;
+          sections.push({
+            id: section.id,
+            title: title.textContent.trim(),
+            text: section.textContent.trim()
+          });
+        });
+        return sections;
       }
-      if (e.key === 'Enter') {
-        var first = searchResults ? searchResults.querySelector('a') : null;
-        if (first) { first.click(); }
+
+      var searchData = buildSearchData();
+
+      function renderSearchResults(value) {
+        if (!searchResults) return;
+        searchResults.innerHTML = '';
+        if (!value) {
+          searchResults.classList.remove('open');
+          return;
+        }
+
+        var query = value.toLowerCase();
+        var matches = searchData.filter(function (item) {
+          return item.title.toLowerCase().indexOf(query) !== -1 || item.text.toLowerCase().indexOf(query) !== -1;
+        }).slice(0, 8);
+
+        if (!matches.length) {
+          var empty = document.createElement('div');
+          empty.className = 'search-empty';
+          empty.textContent = 'Sin resultados';
+          searchResults.appendChild(empty);
+          searchResults.classList.add('open');
+          return;
+        }
+
+        matches.forEach(function (item) {
+          var anchor = document.createElement('a');
+          anchor.className = 'search-result';
+          anchor.href = '#' + item.id;
+          anchor.innerHTML = '<b>' + item.title + '</b><small>' + item.id + '</small>';
+          anchor.addEventListener('click', function () {
+            searchResults.classList.remove('open');
+            searchInput.value = '';
+          });
+          searchResults.appendChild(anchor);
+        });
+
+        searchResults.classList.add('open');
       }
-    });
-  }
-  document.addEventListener('keydown', function (e) {
-    if (e.key === '/' && document.activeElement !== searchInput && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      if (searchInput) searchInput.focus();
-    }
-  });
-  document.addEventListener('click', function (e) {
-    if (searchResults && searchInput && !searchResults.contains(e.target) && e.target !== searchInput) {
-      searchResults.classList.remove('open');
-    }
-  });
 
-  // Navegación activa y progreso
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
-  var sections = Array.prototype.slice.call(document.querySelectorAll('article section[id]'));
-  function updateScroll() {
-    var top = window.scrollY || document.documentElement.scrollTop;
-    var doc = document.documentElement;
-    var max = Math.max(1, doc.scrollHeight - window.innerHeight);
-    if (progress) progress.style.width = Math.min(100, (top / max) * 100) + '%';
-    if (backTop) backTop.classList.toggle('show', top > 600);
+      if (searchInput) {
+        searchInput.addEventListener('input', function (event) {
+          renderSearchResults(event.target.value.trim());
+        });
+      }
 
-    var current = sections[0] ? sections[0].id : '';
-    sections.forEach(function (section) {
-      if (section.getBoundingClientRect().top <= 100) current = section.id;
-    });
-    // En el fondo de la página, la última sección puede no llegar nunca a 130px.
-    if (top + window.innerHeight >= doc.scrollHeight - 4 && sections.length) {
-      current = sections[sections.length - 1].id;
-    }
-    navLinks.forEach(function (link) {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-    });
-  }
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (!ticking) {
-      window.requestAnimationFrame(function () { updateScroll(); ticking = false; });
-      ticking = true;
-    }
-  }, { passive: true });
-  window.addEventListener('resize', updateScroll);
-  updateScroll();
+      document.addEventListener('click', function (event) {
+        if (!searchResults) return;
+        if (!event.target.closest('.search-result') && !event.target.closest('#searchInput')) {
+          searchResults.classList.remove('open');
+        }
+      });
 
-  if (backTop) {
-    backTop.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+      document.querySelectorAll('.copy-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var text = button.getAttribute('data-copy') || button.parentElement.nextElementSibling?.textContent || '';
+          if (!text) return;
+          navigator.clipboard.writeText(text).then(function () {
+            button.classList.add('copied');
+            button.textContent = 'Listo';
+            setTimeout(function () {
+              button.classList.remove('copied');
+              button.textContent = 'Copiar';
+            }, 1200);
+          }).catch(function () {
+            button.textContent = 'Error';
+            setTimeout(function () { button.textContent = 'Copiar'; }, 1200);
+          });
+        });
+      });
 
-  // Marcar enlace activo al cargar con hash
-  if (location.hash) {
-    var target = document.querySelector(location.hash);
-    if (target) setTimeout(function () { target.scrollIntoView(); }, 60);
-  }
-})();
+      function updateScrollProgress() {
+        var doc = document.documentElement;
+        var total = doc.scrollHeight - window.innerHeight;
+        var pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+        if (progress) progress.style.width = pct + '%';
+        if (backTop) {
+          backTop.classList.toggle('show', window.scrollY > 300);
+        }
+      }
 
-</script>
+      window.addEventListener('scroll', updateScrollProgress, { passive: true });
+      window.addEventListener('resize', updateScrollProgress);
+      updateScrollProgress();
+
+      if (backTop) {
+        backTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
